@@ -73,8 +73,7 @@ function parseSet($data)
 	
 	//username = 'Ů?',password = 'niaiwowozhidao'
 	foreach ($data as $key => $value) {
-		//echo $key.'<br />';
-		//echo $value.'<br />';
+
 		$value = parseValue($value);
 		
 		if (is_scalar($value)) {

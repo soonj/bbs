@@ -30,7 +30,7 @@ if ($next > $pageTotal ) {
 
 
 //----------查询主题title 并分页
-$sql = "SELECT username as author_name,pid,hicon,title,rcount,nodename,ctime,coin from tt_user INNER JOIN tt_post on uid = authorid where tt_post.rid = 0 limit $offset , $num";
+$sql = "SELECT username as author_name,pid,hicon,title,rcount,nodename,ctime,coin from tt_user INNER JOIN tt_post ON uid = authorid WHERE tt_post.rid = 0 LIMIT $offset , $num";
 
 $result = mysqli_query($link,$sql);
 

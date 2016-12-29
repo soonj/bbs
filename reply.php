@@ -26,7 +26,7 @@ $table = DB_PREFIX.'post';
 $result_insert = insert($link , $table , $data);
 
 //主题回复数+1
-$result_update = update($link , $table , $update['rcount'] , 'pid = '.$data['rid']);
+$result_update = update($link , $table , $update , 'pid = '.$data['rid']);
 
 
 //回帖扣除金币
