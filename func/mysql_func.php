@@ -63,6 +63,8 @@ function update($link , $table , $data , $where)
 	
 	$sql = "update $table set $set where $where";
 
+
+
 	$result = mysqli_query($link , $sql);
 	
 	return $result;

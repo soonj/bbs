@@ -13,9 +13,9 @@ $table = DB_PREFIX.'user';
 $check = select($link , $table , "username,usergrant,uid" , "username = '$username' and password = '$password'");
 
 if (empty($username) || empty($password)) {
-	exit('用户名或密码不能为空，请<a href="../html/signin.html">返回</a>重新输入');
+	exit('用户名或密码不能为空，请<a href="./html/signin.html">返回</a>重新输入');
 } elseif (empty($check)) {
-	exit('用户名或密码不正确，请<a href="../html/signin.html">返回</a>重新输入');
+	exit('用户名或密码不正确，请<a href="./html/signin.html">返回</a>重新输入');
 } else {
 //--------------会话控制		
 		setcookie('username' , $check[0]['username'] , time() + 7*24*3600 , '/');

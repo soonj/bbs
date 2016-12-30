@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	define ('WEB_SITE' , str_replace('\\' , '/' , __DIR__).'/');
-	define ('DOMAIN_RESOURCE' , "http://localhost/PHP1606/BBS");
+	define ('DOMAIN_RESOURCE' , "http://localhost/document/BBS");
 	
 	include WEB_SITE.'config/config.php';
 	include WEB_SITE.'func/mysql_func.php';

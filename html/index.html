@@ -51,6 +51,7 @@
 
 
 		<!--主题TITLE遍历-->
+        <?php if(!empty($data)):?>
 				<?php foreach($data as $value): ?>
                         <!--cellList Start-->
                         <div class="cell item fl clearFix" style="">
@@ -82,6 +83,12 @@
                             </div>
                         </div>
 				<?php endforeach;?>
+        <?php else:?>
+
+                        <div class="cell item fl clearFix" style="">
+                            
+                        </div>
+        <?php endif;?>
                     <div class="inner fr">
                         <a href="/recent">更多新主题</a>
                     </div>

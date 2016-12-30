@@ -24,6 +24,9 @@ update($link , 'tt_post' , $ccount , "pid = $postid");
 //查询主题对应回复数据
 $sql = "SELECT content,ctime,username,hicon FROM tt_post INNER JOIN tt_user ON rid = $postid AND authorid = uid";
 $result = mysqli_query($link , $sql);
+while($row = mysqli_fetch_assoc($result)){
+        	$data[] = $row;
+}
 
 //主题回复计数
 $rcount = select($link , 'tt_post' , 'count(pid)' , "rid = $postid");

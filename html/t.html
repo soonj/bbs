@@ -5,7 +5,7 @@
             <div style="padding-top: 6px;" class="clearFix">
                 <div class="top_logo_box fl ">   
                     <a href="/" name="top" title="Alliance">
-                        <img src="../imgs/logo.png" border="0" align="default" alt="Alliance" width="94" height="30" />
+                        <img src="./imgs/logo.png" border="0" align="default" alt="Alliance" width="94" height="30" />
                     </a>
                 </div>   
 <!--         SEARCH BAR           -->                 
@@ -94,12 +94,9 @@
     
 
     <!--         回复列表            -->
-<?php if($result && mysqli_affected_rows($link)):
-		while($row = mysqli_fetch_assoc($result)):
-        	$data[] = $row;
-        endwhile;
+<?php if(!empty($data)):
         foreach($data as $key => $value):?>
-        <div id="r_3884248" class="cell fl clearFix">   		
+        <div id="" class="cell fl clearFix">   		
 			<img src="<?=$value['hicon']?>" class="avatar" border="0" align="default" />
 			<div class="reply_text fr clearFix ">
 				<div class="fr clearFix">
@@ -118,7 +115,9 @@
 			</div>		
         </div>
     	<?php endforeach;?>
-    <?php endif;?>
+    <?php else:?>
+    	<div  class="cell fl clearFix">还没有回复呢</div>
+<?php endif;?>
 
     <!--         回复列表 END           -->
 </div>
@@ -209,7 +208,7 @@
 				<div class="fr">
 					<a href="#" onclick="goTop()"><strong>↑</strong> 回到顶部</a>
 				</div>
-		<?php echo '尚未登录，不能发表回复，请<a href="./signin.html">登录</a>';?>
+		<?php echo '尚未登录，不能发表回复，请<a href="./html/signin.html">登录</a>';?>
 			</div>
 		
 		
@@ -226,7 +225,7 @@
 					<div class="sep10"></div>
 					<div class="fr">
 						<div class="sep5"></div>
-						<span class="gray">请尽量让自己的回复能够对别人有帮助</span>
+						<span class="gray">&nbsp;&nbsp;ATTENTION!!&nbsp;&nbsp;&nbsp;本站每次回复扣除&nbsp;&nbsp;5&nbsp;&nbsp;铜币，请尽量让自己的回复能够对别人有帮助</span>
 					</div>
 					<input type="hidden" value="<?=$postid?>" name="once" />
 					<input type="hidden" value="<?=$rcount[0]['count(pid)']+1?>" name="rcount" />
@@ -237,7 +236,7 @@
 <!--         RECEIVE TEXTAREA END            -->
 
 			<div class="inner">
-				<div class="fr"><a href="/">← V2EX</a></div>
+				<div class="fr"><a href="./index.php">← Alliance</a></div>
 				&nbsp;
 			</div>
 		</div>
