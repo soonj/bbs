@@ -86,16 +86,24 @@
 			<a href="/tag/BIOS" class="tag">BIOS</a>
 			<a href="/tag/AMD" class="tag">AMD</a>
 		</div>
+
+
+		<?php if(!empty($data)):
+
+		//主题最后回复时间
+		$last = array_slice($data, -1);
+		$last_time = $last[0]['ctime'];?>
+
+        
 <!--         RECEIVE COUNT            -->
 		<span class="gray"><?=$rcount[0]['count(pid)']?> 回复 &nbsp;
-			<strong class="snow">|</strong> &nbsp;直到 ###### +08:00
+			<strong class="snow">|</strong> &nbsp;直到 <?php echo date('Y-m-d H:i:s' , $last_time);?> +08:00
 		</span>
     </div>
     
 
     <!--         回复列表            -->
-<?php if(!empty($data)):
-        foreach($data as $key => $value):?>
+    	<?php foreach($data as $key => $value):?>
         <div id="" class="cell fl clearFix">   		
 			<img src="<?=$value['hicon']?>" class="avatar" border="0" align="default" />
 			<div class="reply_text fr clearFix ">
@@ -116,11 +124,55 @@
         </div>
     	<?php endforeach;?>
     <?php else:?>
-    	<div  class="cell fl clearFix">还没有回复呢</div>
+    	<span class="gray">0 回复 &nbsp;
+			<strong class="snow">|</strong> &nbsp;直到<?=$time?> +08:00
+		</span>
+	</div>
+    	<div  class="cell fl clearFix">当前主题没有回复呢~</div>
 <?php endif;?>
 
     <!--         回复列表 END           -->
 </div>
+		<div class="box fl clearFix">
+
+<!--         RECEIVE TEXTAREA            -->
+		<?php if (empty($_COOKIE['username'])):?>
+			<div class="cell">
+				<div class="fr">
+					<a href="#" onclick="goTop()"><strong>↑</strong> 回到顶部</a>
+				</div>
+		<?php echo '尚未登录，不能发表回复，请<a href="./html/signin.html">登录</a>';?>
+			</div>
+		
+		
+		<?php else:?>
+			<div class="cell">
+				<div class="fr">
+					<a href="#" onclick="goTop()"><strong>↑</strong> 回到顶部</a>
+				</div>
+				添加一条新回复
+			</div>
+			<div class="cell">
+				<form method="post" action="./reply.php">
+					<textarea name="content" maxlength="10000" class="mll" id="reply_content"></textarea>
+					<div class="sep10"></div>
+					<div class="fr">
+						<div class="sep5"></div>
+						<span class="gray">&nbsp;&nbsp;ATTENTION!!&nbsp;&nbsp;&nbsp;本站每次回复扣除&nbsp;&nbsp;5&nbsp;&nbsp;铜币，请尽量让自己的回复能够对别人有帮助</span>
+					</div>
+					<input type="hidden" value="<?=$postid?>" name="once" />
+					<input type="hidden" value="<?=$rcount[0]['count(pid)']+1?>" name="rcount" />
+					<input type="submit" value="回复" class="super normal button" />
+				</form>
+			</div>
+		<?php endif;?>
+<!--         RECEIVE TEXTAREA END            -->
+
+			<div class="inner">
+				<div class="fr"><a href="./index.php">← Alliance</a></div>
+				&nbsp;
+			</div>
+		</div>
 </div>
  
             <!--Rightbar-->
@@ -154,7 +206,7 @@
 					<?php elseif(!empty($_COOKIE['username'])):?>
 <!--         RIGHTBAR NORMAL            -->					
 					<div class="cell fl">
-						<a href="./new.html"><img src="./imgs/compose.png" width="32" height="32" border="0"/><span class="item_title">来来，让我发表一个主题</span></a>
+						<a href="./new.php"><img src="./imgs/compose.png" width="32" height="32" border="0"/><span class="item_title">来来，让我发表一个主题</span></a>
 					</div>
 					<div class="cell fl clearFix">
 						<div class="fl" id="money">
@@ -202,43 +254,9 @@
 		
 		<div class="reply_div fl clearFix">
 
-<!--         RECEIVE TEXTAREA            -->
-		<?php if (empty($_COOKIE['username'])):?>
-			<div class="cell">
-				<div class="fr">
-					<a href="#" onclick="goTop()"><strong>↑</strong> 回到顶部</a>
-				</div>
-		<?php echo '尚未登录，不能发表回复，请<a href="./html/signin.html">登录</a>';?>
-			</div>
-		
-		
-		<?php else:?>
-			<div class="cell">
-				<div class="fr">
-					<a href="#" onclick="goTop()"><strong>↑</strong> 回到顶部</a>
-				</div>
-				添加一条新回复
-			</div>
-			<div class="cell">
-				<form method="post" action="./reply.php">
-					<textarea name="content" maxlength="10000" class="mll" id="reply_content"></textarea>
-					<div class="sep10"></div>
-					<div class="fr">
-						<div class="sep5"></div>
-						<span class="gray">&nbsp;&nbsp;ATTENTION!!&nbsp;&nbsp;&nbsp;本站每次回复扣除&nbsp;&nbsp;5&nbsp;&nbsp;铜币，请尽量让自己的回复能够对别人有帮助</span>
-					</div>
-					<input type="hidden" value="<?=$postid?>" name="once" />
-					<input type="hidden" value="<?=$rcount[0]['count(pid)']+1?>" name="rcount" />
-					<input type="submit" value="回复" class="super normal button" />
-				</form>
-			</div>
-		<?php endif;?>
-<!--         RECEIVE TEXTAREA END            -->
 
-			<div class="inner">
-				<div class="fr"><a href="./index.php">← Alliance</a></div>
-				&nbsp;
-			</div>
+
+
 		</div>
 		
 		

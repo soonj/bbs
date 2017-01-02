@@ -20,14 +20,6 @@ $data['rid'] = $_POST['once'];
 $update['rcount'] = $_POST['rcount'];
 $table = DB_PREFIX.'post';
 
-
-
-
-
-
-
-
-
 //查询当前金币数目
 $coin['coin'] = $_SESSION['coin_gold']*10000+$_SESSION['coin_silver']*100+$_SESSION['coin_bronze'];
 
@@ -41,6 +33,7 @@ if ($coin['coin'] > 5 ) {
 	$result_update = update($link , $table , $update , 'pid = '.$data['rid']);
 
 //----------回帖扣除金币			
+	$coin['coin'] = $coin['coin'] - 5;
 	update($link , 'tt_user' , $coin , "uid = {$data['authorid']}");
 
 //----------扣除后金币查询
@@ -51,6 +44,7 @@ if ($coin['coin'] > 5 ) {
 	$coin_gold = floor($coin/10000);
 	$coin_silver = floor($coin/100)-$coin_gold*100;
 	$coin_bronze = $coin-$coin_gold*10000-$coin_silver*100;
+//-----------SESSION重置
 	$_SESSION['coin_gold'] = $coin_gold;
 	$_SESSION['coin_silver'] = $coin_silver;
 	$_SESSION['coin_bronze'] = $coin_bronze;

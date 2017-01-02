@@ -3,18 +3,18 @@
 include './common.php';
 
 //----------传入数据
-$time = time();
+$now_time = time();
 $username = trim($_POST['username']);
 $password = md5(trim($_POST['password']));
 $table = DB_PREFIX.'user';
 
 
 // ----------判断用户名密码是否正确
-$check = select($link , $table , "username,usergrant,uid" , "username = '$username' and password = '$password'");
+$check = select($link , $table , "username,password,usergrant,uid" , "username = '$username'");
 
 if (empty($username) || empty($password)) {
 	exit('用户名或密码不能为空，请<a href="./html/signin.html">返回</a>重新输入');
-} elseif (empty($check)) {
+} elseif ($password !== $check[0]['password'])) {
 	exit('用户名或密码不正确，请<a href="./html/signin.html">返回</a>重新输入');
 } else {
 //--------------会话控制		

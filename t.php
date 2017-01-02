@@ -8,7 +8,7 @@ $Parsedown = new Parsedown();
 
 //传入url数据
 $postid = $_GET['post'];
-
+$time = time();
 
 //查询主题内容数据
 $sql = "SELECT title,content,ctime,username,hicon,nodename,rcount,ccount FROM tt_post INNER JOIN tt_user ON tt_post.pid = $postid AND authorid = uid AND rid=0";
@@ -27,6 +27,8 @@ $result = mysqli_query($link , $sql);
 while($row = mysqli_fetch_assoc($result)){
         	$data[] = $row;
 }
+
+
 
 //主题回复计数
 $rcount = select($link , 'tt_post' , 'count(pid)' , "rid = $postid");

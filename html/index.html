@@ -17,7 +17,7 @@
 					</form>
 				</div>
                 
-        <!----------------------------头部操作链接---------------------------->          
+        <!--    头部操作链接  -->          
                 <div class="top_login_box fr">
                     <a href="index.php" class="top">首页</a>
 					<?php if(!empty($_COOKIE['username'])):?>
@@ -43,7 +43,7 @@
                     <div class="sep20"></div>        
                     <div class="box fl clearFix">
 					
-		<!----------------------------子节点遍历---------------------------->
+		<!--  子节点遍历   -->
                         <div class="cell fl" >
                             <a href="/?tab=tech" class="tab">技术</a>
                             <a href="/?tab=creative" class="tab">创意</a>
@@ -56,29 +56,27 @@
                         <!--cellList Start-->
                         <div class="cell item fl clearFix" style="">
                             <div class="cell_one fl clearFix">
-                                        <div class="user_head_icon fl">
-                                            <a href="/member/<?=$value['author_name']?>">
-                                                <img src="<?=$value['hicon']?>" class="avatar" border="0" align="default" />
-                                            </a>
-                                        </div>
-                                        <span class="item_title fl">
-                                            <a href="t.php?post=<?=$value['pid']?>"><?=substr($value['title'],0,45);?></a>
-                                        </span>
-                                        <a class="count_soonj fr" href="t/<?=$value['pid']?>"><?=$value['rcount']?>
-                                        </a>
-                                    <div class="sep5"></div>
-                                    <span class="small fade fl">
-                                        <div class="votes"></div>
-                                        <a class="node" href="go/<?=$value['nodename']?>"><?=$value['nodename']?></a>  
-										
-										
-                                        <strong>
-                                            <a href="member/<?=$value['author_name']?>"><?=$value['author_name']?></a>
-                                        </strong>  
-										<?=date('Y-m-d H:i:s',$value['ctime']);?> 
-										<?php if($value['rcount']>0):?>最后回复来自<a href="member/"></a>
-										<?php endif?>
-                                    </span>
+                                <div class="user_head_icon fl">
+                                    <a href="/member/<?=$value['author_name']?>">
+                                        <img src="<?=$value['hicon']?>" class="avatar" border="0" align="default" />
+                                    </a>
+                                </div>
+                                <span class="item_title fl">
+                                    <a href="t.php?post=<?=$value['pid']?>"><?=substr($value['title'],0,45);?></a>
+                                </span>
+                                <a class="count_soonj fr" href="t.php?post=<?=$value['pid']?>"><?=$value['rcount']?>
+                                </a>
+                                <div class="sep5"></div>
+                                <span class="small fade fl">
+                                    <div class="votes"></div>
+                                    <a class="node" href="go/<?=$value['nodename']?>"><?=$value['nodename']?></a>  
+                                    <strong>
+                                        <a href="member/<?=$value['author_name']?>"><?=$value['author_name']?></a>
+                                    </strong>  
+    								<?=date('Y-m-d H:i:s',$value['ctime']);?> 
+    								<?php if($value['rcount']>0):?>最后回复来自<a href="member/"></a>
+    								<?php endif?>
+                                </span>
                                         
                             </div>
                         </div>
@@ -90,7 +88,7 @@
                         </div>
         <?php endif;?>
                     <div class="inner fr">
-                        <a href="/recent">更多新主题</a>
+                        &nbsp;&nbsp;
                     </div>
                 </div>
             </div>
@@ -126,7 +124,7 @@
 					<?php elseif(!empty($_COOKIE['username'])):?>
 					
 					<div class="cell fl">
-						<a href="./html/new.html"><img src="imgs/compose.png" width="32" height="32" border="0"/><span class="item_title">来来，让我发表一个主题</span></a>
+						<a href="new.php"><img src="imgs/compose.png" width="32" height="32" border="0"/><span class="item_title">来来，让我发表一个主题</span></a>
 					</div>
 					<div class="cell fl clearFix">
 						<div class="fl" id="money">

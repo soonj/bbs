@@ -56,21 +56,22 @@ $data['usergrant'] = '0';
 
 
 //----------执行插入
+//----------新用户奖励50铜
 $insert_id = insert($link , $table , $data);
 
 if (!$insert_id) {
 	exit('注册失败，<a href="./html/signup.html">返回</a>重新注册');
 }
+$check = select($link , $table , "uid" , "username = '$username' and password = '$password'");
 //----------会话控制
 setcookie('username' , $data['username'] , time() + 7*24*3600 , '/');
 setcookie('usergrant' , $data['usergrant'] , time() + 7*24*3600 , '/');
+setcookie('authorid' , $check[0]['uid'] , time() + 7*24*3600 , '/');
 $_COOKIE['username'] = $data['username'];
 
-//----------新用户奖励50铜
+
 
 $hey_money= select($link , DB_PREFIX.'user' , 'coin' , "username = '{$_COOKIE['username']}'");
-
-
 //----------金/银/铜转换  存到SESSION
 $coin = $hey_money[0]['coin'];
 $coin_gold = floor($coin/10000);
@@ -83,8 +84,8 @@ $_SESSION['coin_bronze'] = $coin_bronze;
 
 
 //-------页面跳转
-//header( "refresh:3;url=./index.php" ); 
-var_dump($hey_money);
+header( "refresh:3;url=./index.php" ); 
+
 echo '注册成功，3s后跳转主页. <br />如未响应, 点击<a href="./index.php">这里</a>.';
 
 //关闭数据库

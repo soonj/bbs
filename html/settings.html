@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>TICK-TOCK</title>
-    <link rel="stylesheet" type="text/css" href="http://localhost/PHP1606/BBS/css/base.css" />
-	<link rel="stylesheet" type="text/css" href="http://localhost/PHP1606/BBS/css/mycss.css" />
-	<link href="http://localhost/PHP1606/BBS/imgs/photo.png" rel="shortcut icon"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost/document/BBS/css/base.css" />
+	<link rel="stylesheet" type="text/css" href="http://localhost/document/BBS/css/mycss.css" />
+	<link href="http://localhost/document/BBS/imgs/photo.png" rel="shortcut icon"/>
 
 </head>
 	<body>
@@ -16,7 +16,7 @@
 					<div class="cell fl" >
 						<strong>欢迎<?=$_COOKIE['username']?></strong>
 					</div>						
-					<form action="../signup.php" method="POST">
+					<form action="../setting.php" method="POST">
 						<div class="signin fl">
 							<div class="signin_bar"> 
 								<input type="text" maxlength="40" name="username" id="QAQ" placeholder="用户名" />
@@ -51,9 +51,6 @@
 								
 							</div>
 						</form>
-						<div class="inner fr">
-							<a href="./signin.html">已有账号？&nbsp;去登录</a>
-						</div>
 				</div>           
 				<div class="Logobar fr">
 					<a href="../index.php" name="top" title="Alliance">
