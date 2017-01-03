@@ -41,7 +41,7 @@ if (empty($password)) {
 //-------------传入data
 $check_img = $_POST['check_img'];
 $data['username'] = $username;
-$data['password'] = md5($password);
+$data['password'] = password_hash($password, PASSWORD_DEFAULT);
 $data['email'] = $email;
 $data['ip'] = $ip;
 $data['rtime'] = $time;

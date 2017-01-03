@@ -14,7 +14,7 @@ $check = select($link , $table , "username,password,usergrant,uid" , "username =
 
 if (empty($username) || empty($password)) {
 	exit('用户名或密码不能为空，请<a href="./html/signin.html">返回</a>重新输入');
-} elseif ($password !== $check[0]['password'])) {
+} elseif (password_verify($password , $check[0]['password'])) {
 	exit('用户名或密码不正确，请<a href="./html/signin.html">返回</a>重新输入');
 } else {
 //--------------会话控制		
