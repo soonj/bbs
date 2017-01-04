@@ -28,6 +28,11 @@ $coin['coin'] = $_SESSION['coin_gold']*10000+$_SESSION['coin_silver']*100+$_SESS
 if ($coin['coin'] > 5 ) {
 //----------数据库插入
 	$result_insert = insert($link , $table , $data);
+	if(!$result_insert){
+		header( "refresh:3;url=./t.php?post={$data['rid']}" ); 
+		echo '发表回复失败，3s后返回主题. <br />如未响应, 点击<a href="./t.php?post='.$data['rid'].'">这里</a>';
+		exit();
+	}
 
 //----------主题回复数更新
 	$result_update = update($link , $table , $update , 'pid = '.$data['rid']);

@@ -16,7 +16,6 @@ $title = trim($_POST['title']);
 $content = trim($_POST['content']);
 $authoid = $_POST['once'];
 $table = DB_PREFIX.'post';
-//var_dump($_POST);
 
 
 //-------------处理IP
@@ -71,7 +70,6 @@ if ($coin['coin'] > 10 ) {
 		$_SESSION['coin_gold'] = $coin_gold;
 		$_SESSION['coin_silver'] = $coin_silver;
 		$_SESSION['coin_bronze'] = $coin_bronze;
-
 //-----------成功页面跳转
 		header( 'refresh:3;url='.DOMAIN_RESOURCE.'/index.php' ); 
 		echo '发表主题成功，3s后返回首页. <br />如未响应, 点击<a href="./index.php">这里</a>';

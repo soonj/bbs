@@ -22,8 +22,8 @@ $check_username = select($link , $table , "username" , "username = '$username'")
 
 
 
-if (empty($username)) {
-	exit('用户名不能为空，请<a href="./html/signup.html">返回</a>重新输入');
+if (strlen($username)<6 || strlen($username)>18) {
+	exit('用户名不可用，请<a href="./html/signup.html">返回</a>重新输入');
 }elseif (!empty($check_username)) {
 	exit('用户名已存在，请<a href="./html/signup.html">返回</a>重新输入/或者去<a href="./html/signin.html">登录</a>');
 }
@@ -57,17 +57,21 @@ $data['usergrant'] = '0';
 
 //----------执行插入
 //----------新用户奖励50铜
-$insert_id = insert($link , $table , $data);
+$insert = insert($link , $table , $data);
 
-if (!$insert_id) {
+if (!$insert) {
 	exit('注册失败，<a href="./html/signup.html">返回</a>重新注册');
 }
-$check = select($link , $table , "uid" , "username = '$username' and password = '$password'");
+
+//获取用户id
+$insert_id = mysqli_insert_id($link);
+
 //----------会话控制
 setcookie('username' , $data['username'] , time() + 7*24*3600 , '/');
 setcookie('usergrant' , $data['usergrant'] , time() + 7*24*3600 , '/');
-setcookie('authorid' , $check[0]['uid'] , time() + 7*24*3600 , '/');
+setcookie('authorid' , $insert_id , time() + 7*24*3600 , '/');
 $_COOKIE['username'] = $data['username'];
+
 
 
 
@@ -84,7 +88,7 @@ $_SESSION['coin_bronze'] = $coin_bronze;
 
 
 //-------页面跳转
-header( "refresh:3;url=./index.php" ); 
+header( "refresh:5;url=./index.php" ); 
 
 echo '注册成功，3s后跳转主页. <br />如未响应, 点击<a href="./index.php">这里</a>.';
 

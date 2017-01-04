@@ -41,8 +41,8 @@ $result = mysqli_query($link,$sql);
 while($row = mysqli_fetch_assoc($result))
 {
 	$data[]=$row;
-	//var_dump($data);
 }
+
 
 include './html/header.html';
 include './html/index.html';
