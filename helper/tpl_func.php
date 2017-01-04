@@ -2,9 +2,10 @@
 function display($tplPath,$tplVars = null)
 {
 	$tplFilePath = rtrim(TPL_PATH,'/').'/'.$tplPath;
-	
+	echo $tplPath.'<br />';
+	echo $tplFilePath.'<br />';
 	if (!file_exists($tplFilePath)) {
-		exit('');
+		exit('模版文件不存在');
 	}
 	$php = compile($tplFilePath);
 	
@@ -13,7 +14,7 @@ function display($tplPath,$tplVars = null)
 
 	
 	if (!check_cache_dir(TPL_CACHE)) {
-		exit('');
+		exit('写入缓存失败');
 	}
 	file_put_contents($cacheFilePath,$php);
 	
@@ -43,6 +44,7 @@ function compile($path)
 	$file = file_get_contents($path);
 	
 	$keys = [
+		'{#%%}'				=> '<?=\1;?>',
 		'{$%%}' 			=> '<?=$\1;?>',
 		'{if %%}' 			=> '<?php if(\1):?>',
 		'{/if}'				=> '<?php endif;?>',

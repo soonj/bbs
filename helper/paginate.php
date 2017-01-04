@@ -1,43 +1,5 @@
 <?php
 
-//当前页
-$page = empty($_GET['page']) ? 1 : $_GET['page'];
-
-//总条数
-$count = idCount($link , 'tt_post' , 'pid');
-
-//每页显示数
-$num = 10;
-
-//总页数
-$pageTotal = ceil($count/$num);
-
-//偏移量
-$offset = ($page-1)*$num;
-
-//上一页
-$prev = $page-1;
-//下一页
-$next = $page+1;
-
-if ($prev < 1) {
-	$prev = 1;
-}
-if ($next > $pageTotal ) {
-	$next = $pageTotal;
-}
-
-
-
-
-
-
-
-
-<?php  
-namespace App\Tools;
-
-
 /**
  * 自定义分页类,主要用于产生分页试图
  * Class Common
