@@ -1,13 +1,11 @@
 <?php
 /*
-*???????ݿ???Ӻ??
+*数据库函数
 *@param $host string
 *@param $user string
 *@param $pass srring
 *@param return object
 */
-
-
 
 function connect($host , $user , $pass , $charset , $name)
 {
@@ -58,12 +56,11 @@ function parseValue($data)
 
 function update($link , $table , $data , $where)
 {
-
-	$set = join(',' , parseSet($data));
+	if (is_array($data)){
+		$data = implode(',' , parseSet($data));
+	}
 	
-	$sql = "update $table set $set where $where";
-
-
+	$sql = "update $table set $data where $where";
 
 	$result = mysqli_query($link , $sql);
 	
@@ -72,8 +69,6 @@ function update($link , $table , $data , $where)
 
 function parseSet($data)
 {
-	
-	//username = 'Ů?',password = 'niaiwowozhidao'
 	foreach ($data as $key => $value) {
 
 		$value = parseValue($value);
@@ -85,7 +80,7 @@ function parseSet($data)
 	return $set;
 }
 
-//???????
+
 
 function select($link , $table , $fileds , $where)
 {
