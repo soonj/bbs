@@ -1,11 +1,11 @@
-{include header.html}
+<?php include './caches/header_html.php';?>
 <body class="clearFix">
     <div class="Top">
         <div class="content">
             <div style="padding-top: 6px;" class="clearFix">
                 <div class="top_logo_box fl ">   
-                    <a href="{#WEB_SITE}/index.php" name="top" title="Alliance">
-                        <img src="{#DOMAIN_RESOURCE}/imgs/logo.png" border="0" align="default" alt="Alliance" width="94" height="30" />
+                    <a href="<?=WEB_SITE;?>/index.php" name="top" title="Alliance">
+                        <img src="<?=DOMAIN_RESOURCE;?>/imgs/logo.png" border="0" align="default" alt="Alliance" width="94" height="30" />
                     </a>
                 </div> 
 				
@@ -19,23 +19,23 @@
 				</div>
 <!--    头部操作链接  -->          
                 <div class="top_login_box fr">
-                    <a href="{#WEB_SITE}/index.php" class="top">首页</a>
-                    {if !empty($_COOKIE['username'])}
-                    欢迎你&nbsp;&nbsp;<span class="item_title">{$_COOKIE['username']}</span>&nbsp;&nbsp;
-                    <a href="{#WEB_SITE}/settings.php" class="top">设置</a>
-                    <a href="{#WEB_SITE}/logout.php" class="top">退出</a>
+                    <a href="<?=WEB_SITE;?>/index.php" class="top">首页</a>
+                    <?php if(!empty($_COOKIE['username'])):?>
+                    欢迎你&nbsp;&nbsp;<span class="item_title"><?=$_COOKIE['username'];?></span>&nbsp;&nbsp;
+                    <a href="<?=WEB_SITE;?>/settings.php" class="top">设置</a>
+                    <a href="<?=WEB_SITE;?>/logout.php" class="top">退出</a>
                     
-                    {else}
-                    <a href="{#WEB_SITE}/signup.php" class="top">注册</a>
-                    <a href="{#WEB_SITE}/signin.php" class="top">登录</a>
-                    {/if}
+                    <?php else: ?>
+                    <a href="<?=WEB_SITE;?>/signup.php" class="top">注册</a>
+                    <a href="<?=WEB_SITE;?>/signin.php" class="top">登录</a>
+                    <?php endif;?>
                     
                 </div>      
             </div>
         </div>
     </div>
     <div id="Wrapper">
-        <form method="post" action="{#WEB_SITE}/new.php" id="topic_form">
+        <form method="post" action="<?=WEB_SITE;?>/new.php" id="topic_form">
         <div class="content">           
             <div id="Leftbar"></div>
             <div id="Rightbar">

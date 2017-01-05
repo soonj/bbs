@@ -1,5 +1,5 @@
 <?php
-include './common.php';
+include 'common/common.php';
 if (!empty($_POST['newHicon']) || !empty($_POST['gragh']) || !empty($_POST['info'])) {
 
 //获取表单数据
@@ -43,7 +43,6 @@ if (!empty($_POST['newHicon']) || !empty($_POST['gragh']) || !empty($_POST['info
 //页面显示
 	$result = select($link , 'tt_user' , 'hicon' , "username = '{$_COOKIE['username']}'");
 
-
-	include './html/header.html';
-	include './html/settings.html';
+$title = '个人设置';
+display('home/settings.html' , compact('title' , 'result'));
 }

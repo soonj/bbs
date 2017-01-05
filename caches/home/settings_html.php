@@ -1,13 +1,13 @@
-{include header.html}
+<?php include './caches/header_html.php';?>
 	<body>
 		<div id="Wrapper" class="clearFix">
 			<div class="sign_div clearFix fl">
 				<div class="sep20"></div>        
 				<div class="signin_box fl clearFix">
 					<div class="cell fl" >
-						<strong>{$_COOKIE['username']}</strong>&nbsp;&nbsp;&nbsp;个人信息修改
+						<strong><?=$_COOKIE['username'];?></strong>&nbsp;&nbsp;&nbsp;个人信息修改
 					</div>						
-					<form action="{#WEB_SITE}/settings.php" method="POST" enctype="multipart/form-data">
+					<form action="<?=WEB_SITE;?>/settings.php" method="POST" enctype="multipart/form-data">
 						<div class="signin fl">
 							<div class="signin_bar"> 
 							<input type="password" maxlength="40" name="password" id="QAQ" placeholder="原始密码" />
@@ -30,7 +30,7 @@
 								<div class="cell fl">
 									<span class="item_title fl">当前头像</span>
 									<div class="sep10"></div>
-									<img src="{$result[0]['hicon'];}" class="avatar fl" border="1" align="left" />
+									<img src="<?=$result[0]['hicon'];;?>" class="avatar fl" border="1" align="left" />
 								</div>	
 								<div class="cell fl">	
 									<span class="item_title">选择新头像</span>
@@ -61,8 +61,8 @@
 						</form>
 				</div>           
 				<div class="Logobar fr">
-					<a href="{#WEB_SITE}/index.php" name="top" title="Alliance">
-						<img src="{#DOMAIN_RESOURCE}/imgs/logo.png" border="0" align="default" alt="Alliance" width="200" height="65" />
+					<a href="<?=WEB_SITE;?>/index.php" name="top" title="Alliance">
+						<img src="<?=DOMAIN_RESOURCE;?>/imgs/logo.png" border="0" align="default" alt="Alliance" width="200" height="65" />
 					</a>
 				</div>			
 			</div>		

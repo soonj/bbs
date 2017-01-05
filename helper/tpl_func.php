@@ -2,8 +2,6 @@
 function display($tplPath,$tplVars = null)
 {
 	$tplFilePath = rtrim(TPL_PATH,'/').'/'.$tplPath;
-	echo $tplPath.'<br />';
-	echo $tplFilePath.'<br />';
 	if (!file_exists($tplFilePath)) {
 		exit('模版文件不存在');
 	}

@@ -1,10 +1,6 @@
 <?php
 //导入通用文件
-include './common.php';
-
-//导入Markdown文件
-include './parsedown/Parsedown.php';
-$Parsedown = new Parsedown();
+include './common/common.php';
 
 //传入url数据
 $postid = $_GET['post'];
@@ -33,8 +29,8 @@ while($row = mysqli_fetch_assoc($result)){
 //主题回复计数
 $rcount = select($link , 'tt_post' , 'count(pid)' , "rid = $postid");
 
-include './html/header.html';
-include './html/t.html';
+$title = $row_post['title'];
+display('home/t.html' , compact('title' , 'data' , 'row_post' , 'postid' , 'time' , 'rcount'));
 
 //关闭数据库
 mysqli_close($link);
