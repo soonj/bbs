@@ -3,6 +3,11 @@
 include './common/common.php';
 
 //传入url数据
+if (empty($_GET['post'])) {
+	$content = error('006');
+	display('error.html' ,compact('content'));
+	exit();
+}
 $postid = $_GET['post'];
 $time = time();
 

@@ -33,6 +33,10 @@
 //		-1  回复失败
 //		-2  字数限制
 //
+//	文件错误
+//	04?
+//		-4  文件未找到
+//
 //	支付错误
 //	888
 //	
@@ -75,6 +79,9 @@ function error($error=null)
 			break;
 		case '032':
 			$content = 'error#032~需要字数补丁';
+			break;
+		case '044':
+			$content = 'error#044~文件未找到'
 			break;
 		case '888':
 			$content = 'error#888~金币不足了，再攒攒吧';
