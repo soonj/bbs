@@ -81,7 +81,7 @@ function error($error=null)
 			$content = 'error#032~需要字数补丁';
 			break;
 		case '044':
-			$content = 'error#044~文件未找到'
+			$content = 'error#044~文件未找到';
 			break;
 		case '888':
 			$content = 'error#888~金币不足了，再攒攒吧';
