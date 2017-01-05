@@ -15,6 +15,7 @@ if (!empty($_POST['title'])) {
 		$ctime = time();
 		$title = trim($_POST['title']);
 		$content = trim($_POST['content']);
+		$check_img = trim($_POST['check_img']);
 		$table = DB_PREFIX.'post';
 //-------------处理IP
 		$cip = $_SERVER['REMOTE_ADDR'];
@@ -22,19 +23,28 @@ if (!empty($_POST['title'])) {
 			$cip = '127.0.0.1';
 		}
 		$cip = ip2long($cip);
-//-------------主题名验证
-		if (strlen($_POST['title']<6)) {
-			$content = error('021');
-			display('error.html' , compact('content'));
-			exit();
-		}
-//-------------防风怒
+
 		$check_title = select($link , $table , "title,ctime" , "title = '$title'");
-		if(!empty($check_title) && ($ctime - $check_title[0]['ctime']) < 20){
+		switch (true) {
+//-------------主题字数验证
+			case (strlen($_POST['title']) < 6):
+				$content = error('021');
+				display('error.html' , compact('content'));
+				exit();
+				break;
+//-------------防风怒
+			case (!empty($check_title) && ($ctime - $check_title[0]['ctime']) < 20):
 				$content = error('022');
 				display('error.html' , compact('content'));
 				exit();
+				break;
+			case (strtoupper($_SESSION['verify']) != $check_img):
+				$content = error('006');
+				display('error.html' ,compact('content'));
+				exit();
+				break;
 		}
+
 
 //----------------数据插入
 		$data['authorid'] = $_COOKIE['authorid'];
