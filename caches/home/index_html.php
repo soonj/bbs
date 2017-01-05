@@ -76,7 +76,7 @@
     								<?php  echo date('Y-m-d H:i:s',$value['ctime']); ?> 
     								<?php if($value['rcount']>0 ):?>
                                         最后回复来自
-                                        <a href="<?=WEB_SITE;?>/member.php?q=<?=$value['last_name'];?>"><?=$value['last_name'];?></a>
+                                        <a href="<?=WEB_SITE;?>/member.php?q=<?php /*<?=$value['last_name'];?>*/?>"><?php /*<?=$value['last_name'];?>*/?></a>
     								<?php endif;?>
                                 </span>                                       
                             </div>

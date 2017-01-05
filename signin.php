@@ -7,6 +7,7 @@ if (!empty($_POST['username']) || !empty($_POST['password'])) {
 	$now_time = time();
 	$username = trim($_POST['username']);
 	$password = trim($_POST['password']);
+	$check_img = strtoupper(trim($_POST['check_img']));
 	$table = DB_PREFIX.'user';
 
 // ----------判断用户名密码是否正确
@@ -22,6 +23,12 @@ if (!empty($_POST['username']) || !empty($_POST['password'])) {
 //------------密码错误
 		case (!password_verify($password , $check[0]['password'])):
 			$content = error('002');
+			display('error.html' ,compact('content'));
+			exit();
+			break;
+//---------------验证码不正确
+		case (strtoupper($_SESSION['verify']) != $check_img):
+			$content = error('006');
 			display('error.html' ,compact('content'));
 			exit();
 			break;

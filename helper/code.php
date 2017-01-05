@@ -7,7 +7,7 @@ $width:验证码图像的宽度
 $height:验证码图像的高度
 */
 //code(4, 2, 80, 20);
-function code($number = 4, $type = 2, $width = 100, $height = 20)
+function code($number = 4, $type = 2, $width = 70, $height = 25)
 {
 	//生成画布
 	$image = imagecreatetruecolor($width, $height);

@@ -15,7 +15,7 @@
 //		-3  用户名已存在
 //		-4  输入的密码不合法
 //		-5  两次密码不同
-//
+//		-6  验证码不正确
 //
 //
 //	注册错误
@@ -54,6 +54,9 @@ function error($error=null)
 			break;
 		case '005':
 			$content = 'error#005~两次密码不同';
+			break;
+		case '006':
+			$content = 'error#006~验证码不正确';
 			break;
 		case '010':
 			$content = 'error#010~注册失败';

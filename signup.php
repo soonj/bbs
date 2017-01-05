@@ -8,6 +8,7 @@ if (!empty($_POST['username']) || !empty($_POST['password']) || !empty($_POST['r
 	$password = trim($_POST['password']);
 	$repassword = trim($_POST['repassword']);
 	$email = trim($_POST['email']);
+	$check_img = strtoupper(trim($_POST['check_img']));
 	$table = DB_PREFIX.'user';
 
 	//-----------处理IP
@@ -46,10 +47,16 @@ if (!empty($_POST['username']) || !empty($_POST['password']) || !empty($_POST['r
 			display('error.html' ,compact('content'));
 			exit();
 			break;
+//验证码不正确
+		case (strtoupper($_SESSION['verify']) != $check_img):
+			$content = error('006');
+			display('error.html' ,compact('content'));
+			exit();
+			break;
 	}
 
 //-------------传入data
-	$check_img = $_POST['check_img'];//验证码
+
 	$data['username'] = $username;
 	$data['password'] = password_hash($password, PASSWORD_DEFAULT);
 	$data['email'] = $email;

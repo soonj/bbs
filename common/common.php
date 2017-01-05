@@ -10,6 +10,7 @@
 	include './helper/error.php';//加载错误处理函数
 	include './helper/coin.php';//加载金币查询函数
 	include './parsedown/Parsedown.php';//导入Markdown文件
+	include './helper/code.php';//加载验证码函数
 
 
 	session_start();
