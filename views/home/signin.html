@@ -1,5 +1,17 @@
 ﻿{include header.html}
 <body>
+	<script>
+		window.onload = function()
+		{
+			var btn = document.getElementById('btn');
+			var oVer = document.getElementById('ver');
+			btn.onclick = function()
+			{
+				//alert(1);
+				oVer.src="code.php?'+Math.random()";
+			}
+		}
+	</script>
 		<div id="Wrapper" class="clearFix">
 			<div class="sign_div clearFix fl">
 				<div class="sep20"></div>        
@@ -25,8 +37,8 @@
 							<div class="signin_bar" style="width:125px"> 
 								<input type="text" maxlength="40" name="check_img" id="QAQ" placeholder="验证码" class="fl" style="width:100px"/>
 							</div>		
-							<img src="{#WEB_SITE}/code.php" class="fr" style="margin-top:2px"/>
-							<a href="" class="fr" style="margin-top:10px">看不清？</a>
+							<img src="{#WEB_SITE}/code.php" class="fr" style="margin-top:2px" onclick="this.src='code.php?'+Math.random()" id="ver"/>
+							<a href="#" class="fr" style="margin-top:10px" id="btn">看不清？</a>
 						</div>
 							<div class="signin fl">
 								<input type="submit" class="super normal button" value="登录"/>

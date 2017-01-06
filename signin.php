@@ -45,7 +45,7 @@ if (!empty($_POST['username']) || !empty($_POST['password'])) {
 				coin($link , $_COOKIE['username']);
 //-----------页面跳转
 				header( 'refresh:3;url='.WEB_SITE.'/index.php' ); 
-				echo '登录成功，3s后跳转主页. <br />如未响应, 点击<a href="{#WEB_SITE}/index.php">这里</a>.';
+				echo '登录成功，3s后跳转主页. <br />如未响应, 点击<a href="'.WEB_SITE.'/index.php">这里</a>.';
 			}else{
 				$content = error();
 				display('error.html' ,compact('content'));
