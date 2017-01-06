@@ -11,6 +11,7 @@
 	include './helper/coin.php';//加载金币查询函数
 	include './parsedown/Parsedown.php';//导入Markdown文件
 	include './helper/code.php';//加载验证码函数
+	include './helper/upload_func.php';//加载文件上传函数
 
 
 	session_start();

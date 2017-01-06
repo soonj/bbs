@@ -37,6 +37,10 @@
 //	04?
 //		-4  文件未找到
 //
+//	修改信息错误
+//	05?
+//		-1  修改数据库失败
+//
 //	支付错误
 //	888
 //	
@@ -82,6 +86,9 @@ function error($error=null)
 			break;
 		case '044':
 			$content = 'error#044~文件未找到';
+			break;
+		case '051':
+			$content = 'error#051~修改数据失败';
 			break;
 		case '888':
 			$content = 'error#888~金币不足了，再攒攒吧';

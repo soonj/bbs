@@ -56,6 +56,7 @@ function parseValue($data)
 
 function update($link , $table , $data , $where)
 {
+
 	if (is_array($data)){
 		$data = implode(',' , parseSet($data));
 	}
