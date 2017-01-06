@@ -48,6 +48,10 @@
                             <a href="/?tab=tech" class="tab">技术</a>
                             <a href="/?tab=creative" class="tab">创意</a>
                         </div>
+        <!--     分页按钮       -->
+                        <div class="cell fl">
+                            {section} echo getSelfPageView($nowPage, $totalPage, $baseUrl, $search){/section}
+                        </div>
 
 
 		<!--主题TITLE遍历-->
@@ -62,7 +66,15 @@
                                     </a>
                                 </div>
                                 <span class="item_title fl">
-                                    <a href="t.php?post={$value['pid']}">{section} echo substr($value['title'],0,45);{/section}</a>
+                                    <a href="t.php?post={$value['pid']}">
+                                        {section} 
+                                        if (strlen($value['title'])>45) {
+                                            $sub = substr($value['title'],0,45);
+                                            echo $sub.'&nbsp;...';
+                                        } else {
+                                            echo $value['title'];
+                                        }
+                                        {/section}</a>
                                 </span>
                                 <a class="count_soonj fr" href="t.php?post={$value['pid']}">{$value['rcount']}
                                 </a>

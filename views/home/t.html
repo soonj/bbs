@@ -123,6 +123,11 @@
 			</div>		
         </div>
     	{/foreach}
+    	{if $rcount[0]['count(pid)'] >10}
+    		<div class="cell fl">
+               	{section} echo getSelfPageView($nowPage, $totalPage, $baseUrl, $search){/section}
+            </div>
+        {/if}
     {else}
     	<span class="gray">0 回复 &nbsp;
 			

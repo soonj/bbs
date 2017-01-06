@@ -1,19 +1,17 @@
 <?php
 
 /**
- * 自定义分页类,主要用于产生分页试图
- * Class Common
- * @package App\Library
+ * 自定义分页函数,主要用于产生分页试图
+ *
  */
-class CustomPage  
-{
+
     /**
      * @param $text
      * @return string
      */
-    public static function getActivePageWrapper($text)
+    function getActivePageWrapper($text)
     {
-        return '<li><span>' . $text . '</span></li>';
+        return '<li class="fl "><span>' . $text . '</span></li>';
     }
 
 
@@ -23,9 +21,9 @@ class CustomPage
      * @param $page
      * @return string
      */
-    public static function getActivePageLinkWrapper($url, $page)
+    function getActivePageLinkWrapper($url, $page)
     {
-        return '<li class="active"><a href="' . $url . '">' . $page . '</a></li>';
+        return '<li class="active fl"><a href="' . $url . '" class="page_current">' . $page . '</a></li>';
     }
 
 
@@ -35,9 +33,9 @@ class CustomPage
      * @param $page
      * @return string
      */
-    public static function getPageLinkWrapper($url, $page)
+    function getPageLinkWrapper($url, $page)
     {
-        return '<li><a href="' . $url . '">' . $page . '</a></li>';
+        return '<li class="fl"><a href="' . $url . '" class="page_normal">' . $page . '</a></li>';
     }
 
 
@@ -49,7 +47,7 @@ class CustomPage
      * @param $search   搜索
      * @return string
      */
-    public static function getSelfPageView($nowPage, $totalPage, $baseUrl, $search)
+    function getSelfPageView($nowPage, $totalPage, $baseUrl, $search)
     {
 
         $pagePre = '<ul class="pagination">';
@@ -59,44 +57,44 @@ class CustomPage
         $pageNextStr = '';
         if ($nowPage <= 1) {
             $nowPage = 1;
-            $pageLastStr = '<li class="disabled"><span>«</span></li>';
+            $pageLastStr = '<li class="fl page_normal disabled_now"><span><</span></li>';
         }
         if ($nowPage >= $totalPage) {
             $nowPage = $totalPage;
-            $pageNextStr = '<li class="disabled"><span>»</span></li>';
+            $pageNextStr = '<li class="fl page_normal disable_now"><span>></span></li class="fl">';
         }
 
-        $search['totalPage'] = $totalPage;
+        //$search['totalPage'] = $totalPage;
 
         if (empty($pageLastStr)) {
             $lastPage = $nowPage - 1;
             $search['nowPage'] = $lastPage;
-            $lastSearchStr = self::arrayToSearchStr($search);
+            $lastSearchStr = arrayToSearchStr($search);
             $url = $baseUrl . '?' . $lastSearchStr;
-            $pageLastStr = self::getPageLinkWrapper($url, '«');
+            $pageLastStr = getPageLinkWrapper($url, '«');
         }
 
 
         if (empty($pageNextStr)) {
             $pageNext = $nowPage + 1;
             $search['nowPage'] = $pageNext;
-            $lastSearchStr = self::arrayToSearchStr($search);
+            $lastSearchStr = arrayToSearchStr($search);
             $url = $baseUrl . '?' . $lastSearchStr;
-            $pageNextStr = self::getPageLinkWrapper($url, '»');
+            $pageNextStr = getPageLinkWrapper($url, '»');
         }
 
 
         $pageTemp = '';
-        $pageRange = self::getPageRange($nowPage, $totalPage);
+        $pageRange = getPageRange($nowPage, $totalPage);
         $pageTemp .= $pageLastStr;
         foreach ($pageRange as $page) {
             $search['nowPage'] = $page;
-            $searchStr = self::arrayToSearchStr($search);
+            $searchStr = arrayToSearchStr($search);
             $url = $baseUrl . '?' . $searchStr;
             if ($page == $nowPage) {
-                $pageTemp .= self::getActivePageLinkWrapper($url, $page);
+                $pageTemp .= getActivePageLinkWrapper($url, $page);
             } else {
-                $pageTemp .= self::getPageLinkWrapper($url, $page);
+                $pageTemp .= getPageLinkWrapper($url, $page);
             }
         }
         $pageTemp .= $pageNextStr;
@@ -111,7 +109,7 @@ class CustomPage
      * @param $totalPage
      * @return array
      */
-    public static function getPageRange($nowPage, $totalPage)
+    function getPageRange($nowPage, $totalPage)
     {
         $returnArray = [];
 
@@ -151,7 +149,7 @@ class CustomPage
      * @param $array
      * @return string
      */
-    public static function arrayToSearchStr($array)
+    function arrayToSearchStr($array)
     {
         $fields_string = '';
 
@@ -171,4 +169,4 @@ class CustomPage
 
         return $fields_string;
     }
-}
+

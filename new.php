@@ -15,7 +15,7 @@ if (!empty($_POST['title'])) {
 		$ctime = time();
 		$title = trim($_POST['title']);
 		$content = trim($_POST['content']);
-		$check_img = trim($_POST['check_img']);
+		$check_img = strtoupper(trim($_POST['check_img']));
 		$table = DB_PREFIX.'post';
 //-------------处理IP
 		$cip = $_SERVER['REMOTE_ADDR'];
@@ -33,11 +33,13 @@ if (!empty($_POST['title'])) {
 				exit();
 				break;
 //-------------防风怒
-			case (!empty($check_title) && ($ctime - $check_title[0]['ctime']) < 20):
+			/*case (!empty($check_title) && ($ctime - $check_title[0]['ctime']) < 20):
 				$content = error('022');
 				display('error.html' , compact('content'));
 				exit();
 				break;
+			*/
+//-------------验证码
 			case (strtoupper($_SESSION['verify']) != $check_img):
 				$content = error('006');
 				display('error.html' ,compact('content'));
@@ -84,7 +86,9 @@ if (!empty($_POST['title'])) {
 
 } else {
 		$title = '发表主题';
+		//echo $_SESSION['verify'];
 		display('home/new.html' , compact('title'));
+
 	//----------关闭数据库
 		mysqli_close($link);
 }
