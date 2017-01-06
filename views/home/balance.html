@@ -1,3 +1,92 @@
-<html>
+{include header.html}
+<body class="clearFix">
+    <div class="Top">
+        <div class="content">
+            <div style="padding-top: 6px;" class="clearFix">
+                <div class="top_logo_box fl ">   
+                    <a href="{#WEB_SITE}/index.php" name="top" title="Alliance">
+                        <img src="{#DOMAIN_RESOURCE}/imgs/logo.png" border="0" align="default" alt="Alliance" width="94" height="30" />
+                    </a>
+                </div>   
+<!--    搜索框    --> 
+                <div class="search fl">
+					<form onsubmit="return dispatch()">
+						<div class="search_bar">
+							<input type="text" maxlength="40" name="q" id="q" value="" />
+						</div>
+					</form>
+				</div>
+                
+        <!--    头部操作链接  -->          
+                <div class="top_login_box fr">
+                    <a href="{#WEB_SITE}/index.php" class="top">首页</a>
+					{if !empty($_COOKIE['username'])}
+					欢迎你&nbsp;&nbsp;<span class="item_title">{$_COOKIE['username']}</span>&nbsp;&nbsp;
+					<a href="{#WEB_SITE}/settings.php" class="top">设置</a>
+                    <a href="{#WEB_SITE}/logout.php" class="top">退出</a>
+					
+					{else}
+                    <a href="{#WEB_SITE}/signup.php" class="top">注册</a>
+                    <a href="{#WEB_SITE}/signin.php" class="top">登录</a>
+					{/if}
+					
+                </div>   
+            </div>
+        </div>
+    </div>
 	
+    <div id="Wrapper" class="clearFix">
+        <div class="content clearFix">
+            <div class="Leftbar fl"></div>
+
+            <div class="Main clearFix fl">
+                    <div class="sep20"></div>        
+                    <div class="box fl clearFix">
+            <form action="{#WEB_SITE}/balance.php" method="post">
+            {if empty($_SESSION['daily']) || ($time - $_SESSION['daily']) > 86400}
+            <div class="box">
+                <div class="cell">
+                    日常任务
+                </div>
+                <div class="cell">
+                    <h1>日常任务奖励铜币 &nbsp;&nbsp;{section} echo date('Y-m-d' , $time);{/section}</h1>
+                    <input type="hidden" name='hidden' value="hidden"/>
+                    <input type="submit" class="super normal button" value="领取铜币"/>
+                </div>
+                <div>
+                    已连续登录
+                </div>
+            </div>
+            {else}
+            <div class="box">
+                <div class="cell">
+                    日常任务
+                </div>
+                <div class="cell">
+                    <h1>已领取今日奖励&nbsp;&nbsp;
+                        {section} 
+                            echo date('Y-m-d' , $time);
+                        {/section}</h1>
+                </div>
+            </div>
+            {/if}
+        </form>
+
+
+
+        <div class="sep20"></div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+
+    <div id="Bottom">
+        <div class="content">
+            <div class="inner">
+                <div class="sep10"></div>    
+                    
+                <div class="sep10"></div>
+            </div>
+        </div>
+    </div>
+    
+</body>
 </html>
