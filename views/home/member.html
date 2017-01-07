@@ -1,0 +1,133 @@
+{include header.html}
+	<body>
+		<div class="Logobar fr" style="margin-right:400px">
+			<a href="{#WEB_SITE}/index.php" name="top" title="Alliance">
+				<img src="{#DOMAIN_RESOURCE}/imgs/logo.png" border="0" align="default" alt="Alliance" width="200" height="65" />
+			</a>
+		</div>	
+		<div id="Wrapper" class="clearFix">
+			<div class="sign_div clearFix fl" style="width:400px;margin-top:20px">
+				<div class="sep20"></div>        
+				<div class="signin_box fl clearFix">
+					<div class="cell fl" style="width:300px">
+						<strong>{$_COOKIE['username']}</strong>&nbsp;&nbsp;&nbsp;个人信息
+					</div>						
+					
+{if empty($_GET['o'])}
+					<div class="box">
+						<div class="cell" style="width:300px">
+							<button type="button" class="super normal button" >
+							<a href="{#WEB_SITE}/settings.php?o=1">密码修改</a>
+							</button>
+							
+							
+							<button type="button" class="super normal button">
+								<a href="{#WEB_SITE}/settings.php?o=2"> &nbsp;头像修改</a>
+							</button>
+							
+							
+							<button type="button" class="super normal button">
+								<a href="{#WEB_SITE}/settings.php?o=3"> &nbsp;签名修改</a>
+							</button>
+							
+							
+							<button type="button" class="super normal button">
+								<a href="{#WEB_SITE}/settings.php?o=4"> &nbsp;信息修改</a>
+							</button>
+						</div>
+					</div>
+
+
+		<!--密码修改-->
+{elseif $_GET['o'] == 1}
+					<form action="{#WEB_SITE}/settings.php?o=1" method="POST" enctype="multipart/form-data">
+						<div class="signin fl">
+							<div class="signin_bar"> 
+							<input type="password" maxlength="40" name="password" id="QAQ" placeholder="原始密码" />
+							</div>								
+						</div>
+						<div class="signin fl">
+							<div class="signin_bar"> 
+							<input type="password" maxlength="40" name="NewPassword" id="QAQ" placeholder="新密码(若不修改密码留空此处)" />
+							</div>
+						</div>
+						<div class="signin fl">
+							<div class="signin_bar"> 
+							<input type="password" maxlength="40" name="reNewPassword" id="QAQ" placeholder="确认新密码" />
+							</div>
+						</div>
+						<div class="signin fl">
+									<input type="submit" name="submitbtn" class="super normal button" value="确认"/>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" class="super normal button">
+										<a href="{$_SERVER['HTTP_REFERER']}"> &nbsp;返回</a>
+									</button>
+						</div>
+
+
+						<div class="Rightbar fl clearFix">					
+							<div class="box" style="margin-left:10px;">
+					</form>
+	<!--头像设置-->
+{elseif $_GET['o'] == 2}
+					<form action="{#WEB_SITE}/settings.php?o=2" method="POST" enctype="multipart/form-data">	
+								<div class="cell fl" style="width:300px">
+									<span class="item_title fl">当前头像</span>
+									<div class="sep10"></div>
+									<img src="{$result[0]['hicon'];}" class="avatar fl" border="1" align="left" />
+								</div>	
+
+								<div class="cell fl" style="width:300px">	
+									<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+									<span class="item_title">选择新头像</span>
+									<div class="sep10"></div>
+									<input type="file"  name="newHicon" />
+								</div>
+								<div class="signin fl">
+									<input type="submit" class="super normal button" name="submitbtn" value="确认"/>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" class="super normal button">
+										<a href="{$_SERVER['HTTP_REFERER']}"> &nbsp;返回</a>
+									</button>
+								</div>
+					</form>			
+		<!--签名设置-->
+{elseif $_GET['o'] == 3}
+					<form action="{#WEB_SITE}/settings.php?o=3" method="POST" enctype="multipart/form-data">
+								<div class="cell fl" style="width:300px">
+									<span class="item_title">我的签名</span>
+									<div class="sep10"></div>
+									<textarea name="gragh" maxlength="200" cols="30" rows="3"></textarea>
+								</div>
+								<div class="signin fl">
+									<input type="submit" class="super normal button" name="submitbtn" value="确认"/>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" class="super normal button">
+										<a href="{$_SERVER['HTTP_REFERER']}"> &nbsp;返回</a>
+									</button>
+								</div>
+					</form>
+		<!--信息设置-->	
+{elseif $_GET['o'] == 4}
+					<form action="{#WEB_SITE}/settings.php?o=4" method="POST" enctype="multipart/form-data">					
+								<div class="cell fl" style="width:300px">
+									<span class="item_title">个人信息</span>
+									<div class="sep10"></div>
+									<textarea name="info" maxlength="200" cols="30" rows="3"></textarea>
+								</div>
+					
+								<div class="signin fl">
+									<input type="submit" class="super normal button" name="submitbtn" value="确认"/>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" class="super normal button">
+										<a href="{$_SERVER['HTTP_REFERER']}"> &nbsp;返回</a>
+									</button>
+								</div>
+					</form>
+{/if}
+
+
+							</div>	
+						</div>
+				</div>           
+						
+			</div>		
+		</div>
+	</body>
+</html>

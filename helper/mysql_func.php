@@ -32,7 +32,6 @@ function insert($link , $table , $data)
 	$values = implode(',' , parseValue($value));
 	
 	$sql = "insert into $table($fileds) values($values) ";
-
 	$result = mysqli_query($link , $sql);
 	
 	if ($result) {
