@@ -41,8 +41,9 @@ if (!empty($_POST['submitbtn'])) {
 											'jpg',
 											'bmp',
 											] , pow(1024,2)*2 , './upload/imgs' , 1);
+
 	//修改成功
-			if ($hicon[0] = 1) {
+			if ($hicon[0] == 1) {
 				$data['hicon'] = $hicon[1];
 			} else {
 	//修改失败，错误号
