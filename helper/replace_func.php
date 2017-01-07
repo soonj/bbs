@@ -1,7 +1,13 @@
 <?php
 
-//使用正则将搜索结果匹配替换
-
+/**
+ *使用正则将搜索结果匹配替换
+ *
+ *@param $key string   		关键字
+ *@param $content string 	源文本
+ *
+ *
+ */
 function replace_func($key , $content){
 
 	$pattern = "/$key/imsU";

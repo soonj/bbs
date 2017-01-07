@@ -50,16 +50,19 @@
                         </div>
         {elseif $count == 0}
         				<div class="cell fl">
-                            请在上面搜索你想要的内容↑↑↑
+                            未找到关键字，试试别的？
                         </div>
+        {elseif $count == -1}    
+                        <div class="cell fl">
+                            请在上面搜索你想要的内容↑↑↑
+                        </div>            
         {/if}
 
-		<!--主题TITLE遍历-->
+		<!--搜索结果遍历-->
         {if !empty($data)}
 				{foreach $data as $value}
-
-
 				{if $value['rid'] == 0}
+                <!--关键字存在于  TITLE-->
                         <!--cellList Start-->
                         <div class="cell item fl clearFix" style="">
                             <div class="cell_one fl clearFix">
@@ -70,6 +73,7 @@
                                 </div>
                                 <span class="item_title fl">
                                     <a href="t.php?post={$value['pid']}">
+        <!--关键字替换颜色-->
                                         {section} 
                                         echo replace_func($_GET['q'] , $value['title']);
                                         {/section}</a>
@@ -83,6 +87,7 @@
                                     <strong>
                                         <a href="{#WEB_SITE}/member.php?q={$value['author_name']}">{$value['author_name']}</a>
                                     </strong>  
+        <!--创建时间、回复时间、回复用户-->
     								{section} echo date('Y-m-d H:i:s',$value['ctime']); {/section} 
     								{if $value['rcount']>0 }
                                         最后回复来自
@@ -92,6 +97,7 @@
                             </div>
                         </div>
                 {else}
+                <!--关键字存在于 CONTENT-->
  <!--cellList Start-->
                         <div class="cell item fl clearFix" style="">
                             <div class="cell_one fl clearFix">
@@ -117,6 +123,7 @@
                                     <strong>
                                         <a href="{#WEB_SITE}/member.php?q={$value['author_name']}">{$value['author_name']}</a>
                                     </strong>  
+    <!--创建时间、回复时间、回复用户-->
     								{section} echo date('Y-m-d H:i:s',$value['ctime']); {/section} 
                                 </span>                                       
                             </div>
