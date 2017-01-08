@@ -72,7 +72,7 @@ if (!empty($_POST['username']) || !empty($_POST['password']) || !empty($_POST['r
 	$insert = insert($link , $table , $data);
 //----------插入失败
 	if (!$insert) {
-		$content = error('005');
+		$content = error('010');
 		display('error.html' ,compact('content'));
 		exit();
 	}
