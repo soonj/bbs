@@ -21,9 +21,12 @@ $count = select($link , 'tt_post' , 'count(pid)' , 'rid = 0');
 $pageCount = $count[0]['count(pid)'] / 10;
 
 //----------遍历输出到数组
-while($row = mysqli_fetch_assoc($result))
-{
-	$data[]=$row;
+if ($result) {
+	while($row = mysqli_fetch_assoc($result))
+	{
+		$data[]=$row;
+	}
+	
 }
 //模版引擎传值
 $title = 'TICK-TOCK'; 
@@ -36,3 +39,4 @@ display('home/index.html' , compact('data' , 'title' , 'totalPage' , 'baseUrl' ,
 
 //----------关闭数据库
 mysqli_close($link);
+
