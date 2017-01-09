@@ -40,7 +40,7 @@ function insert($link , $table , $data)
 		return false;
 	}
 }
-//
+
 function parseValue($data)
 {
 	if (is_string($data)) {
@@ -67,6 +67,42 @@ function update($link , $table , $data , $where)
 	return $result;
 }
 
+
+/*批量更新多条记录不同值
+/	
+/@param $link object
+/@param $table string
+/@param $data array
+/
+*/
+function update_array($link , $table , $data)
+{
+	/*$data = array(
+	    title => array(	'1' => 2,
+	    				'2' => 3,
+	    				'3' => 2),
+	    content => array(	'1' => 3,
+	    					'2' => 3,
+	    					'3'),
+	);
+	*/
+ 	reset($data);
+ 	$current = current($data);
+	$ids = implode(',', array_keys($current));
+	$sql = "UPDATE $table SET ";
+	foreach ($data as $key => $value) {
+		$sql .= "$key = CASE id ";
+		foreach ($value as $id => $ordinal) {
+	    $sql .= sprintf("WHEN %d THEN %d END,", $id, $ordinal);
+		}
+	}
+	$sql = rtrim($sql , ',');
+	$sql .= " WHERE id IN ($ids)";
+	//echo $sql;
+	$result = mysqli_query($link , $sql);
+
+	return $result;
+}
 
 function parseSet($data)
 {
