@@ -12,7 +12,7 @@
                 <div class="search fl">
 					<form action="{#WEB_SITE}/S.php" method="get">
 						<div class="search_bar">
-							<input type="text" maxlength="40" name="q" id="q" value="" />
+							<input type="search" maxlength="40" name="q" id="q" value="" />
 						</div>
 					</form>
 				</div>
@@ -49,8 +49,17 @@
                             <a href="/?tab=creative" class="tab">创意</a>
                         </div>
         <!--     分页按钮       -->
-                        <div class="cell fl">
+                        <div class="cell fl clearFix">
                             {section} echo getSelfPageView($nowPage, $totalPage, $baseUrl, $search){/section}
+                            <form action="{#WEB_SITE}/index.php" method="post">
+                                <div class="fr">
+                                    到
+                                    <input type="text" name="jump" style="width:30px"/>
+                                    页
+                                    <input type="submit" value="GO!">
+                                    共{$totalPage}页
+                                </div>
+                            </form>
                         </div>
 
 

@@ -6,7 +6,10 @@ include 'common/common.php';
 if (!empty($_GET['nowPage'])) {
 	$nowPage = $_GET['nowPage'];
 	$offset = ($nowPage-1)*10;
-} else {
+} elseif(!empty($_POST['jump'])) {
+	$nowPage = $_POST['jump'];
+	$offset = ($nowPage-1)*10;
+} else{
 	$nowPage = 0;
 	$offset = 0;
 }
