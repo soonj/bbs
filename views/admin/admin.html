@@ -1,0 +1,302 @@
+{include header.html}
+<body>
+    <div class="Top">
+        <div class="content">
+            <div style="padding-top: 6px;" class="clearFix">
+                <div class="top_logo_box fl ">   
+                    <a href="{#WEB_SITE}/index.php" name="top" title="Alliance">
+                        <img src="{#DOMAIN_RESOURCE}/imgs/logo.png" border="0" align="default" alt="Alliance" width="94" height="30" />
+                    </a>
+                </div>   
+<!--    搜索框    --> 
+                <div class="search fl">
+					<form action="{#WEB_SITE}/S.php" method="get">
+						<div class="search_bar">
+							<input type="search" maxlength="40" name="q" id="q" value="" />
+						</div>
+					</form>
+				</div>
+                
+        <!--    头部操作链接  -->          
+                <div class="top_login_box fr">
+                    <a href="{#WEB_SITE}/index.php" class="top">首页</a>
+					{if !empty($_COOKIE['username'])}
+					欢迎你&nbsp;&nbsp;<span class="item_title">{$_COOKIE['username']}</span>&nbsp;&nbsp;
+					<a href="{#WEB_SITE}/settings.php" class="top">设置</a>
+                    <a href="{#WEB_SITE}/logout.php" class="top">退出</a>
+					
+					{else}
+                    <a href="{#WEB_SITE}/signup.php" class="top">注册</a>
+                    <a href="{#WEB_SITE}/signin.php" class="top">登录</a>
+					{/if}
+					
+                </div>   
+            </div>
+        </div>
+    </div>
+    <div id="Wrapper">
+        <div class="content">
+            <div id="Leftbar"></div>
+			
+            <div id="Rightbar clearFix">                               
+				<div class="box">
+					<ul>
+						<button type="button" class="super normal button" >
+							<a href="{#WEB_SITE}/admin.php?q=1">&nbsp;板块管理</a>
+						</button>&nbsp;&nbsp;
+						<button type="button" class="super normal button" onclick="previewTopicContent();">
+							<a href="{#WEB_SITE}/admin.php?q=2"> &nbsp;站点信息</a>
+						</button>&nbsp;&nbsp;
+						<button type="button" class="super normal button" onclick="previewTopicContent();">
+							<a href="{#WEB_SITE}/admin.php?q=3"> &nbsp;用户管理</a>
+						</button>&nbsp;&nbsp;
+						<button type="button" class="super normal button" onclick="previewTopicContent();">
+							<a href="{#WEB_SITE}/admin.php?q=4"> &nbsp;帖子管理</a>
+						</button>
+					</ul>
+				</div>
+            </div>    
+			<div id="Main">
+				<div class="sep20"></div>
+	{if !empty($_GET['q'])}
+
+			{if $_GET['q'] == 1}				
+				<div class="box" id="box">
+					<div class="header"> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 板块管理
+					</div>
+					<div class="cell">
+						<form method="post" action="{#WEB_SITE}/admin.php?q=1" enctype="multipart/form-data">
+						{section}var_dump($result);{/section}
+						<table>
+							<tr>
+								<th>板块名</th>
+								<th>板块LOGO</th>
+								<th>板块介绍</th>
+								<th>板主</th>
+								<th>是否显示</th>
+								<th>选择</th>
+							</tr>
+							
+						{foreach $result as $value}
+							<tr>
+								<td>
+									<input type="text" name="tabname_{$value['id']}" value="{$value['tabname']}"/>
+								</td>
+								<td>
+									<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+									<input type="file" name="logo_{$value['id']}" />选择新LOGO
+									<img src="{$value['logo']}"/>
+								</td>
+								<td>
+									<input name="info_{$value['id']}" value="{$value['info']}"/>
+								</td>
+								<td>
+									<input type="text" name="scythe_{$value['id']}" value="{$value['scythe']}"/>
+								</td>
+								<td>{if $value['hidden']==0}显示{else}不显示{/if}</td>
+								<td>
+									<input type="checkbox" name="id[]" value="{$value['id']}" />
+								</td>
+							</tr>
+						{/foreach}
+							<tr>
+								<td>
+									<input type="text" name="add_tabname"/>
+									<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+									<input type="file" name="add_logo"/>
+									<input type="text" name="add_info"/>
+									<input type="text" name="add_scythe"/>
+								</td>
+							</tr>
+
+						</table>
+
+							<button type="submit"  class="super normal button" name="add">
+								<li class="fa fa-paper-plane"></li>添加板块
+							</button>
+							<button type="submit"  class="super normal button" name="delete">
+								<li class="fa fa-paper-plane"></li>批量删除板块
+							</button>
+							<button type="submit"  class="super normal button" name="update">
+								<li class="fa fa-paper-plane"></li>提交修改
+							</button>
+
+						</form>
+					</div>
+				</div>
+			{elseif $_GET['q'] == 2}
+				<div class="box" id="box">
+					<div class="header"> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 站点信息
+					</div>
+					<div class="cell">
+						<form method="post" action="{#WEB_SITE}/admin.php?q=2">
+						<table>
+							<tr>
+								
+								
+							</tr>
+							<tr>
+								<th>站点信息</th>
+								<th>友情链接</th>
+								<th>友链描述</th>
+								<th>优先级</th>
+							</tr>
+							
+						{foreach $result as $value}
+							<tr>
+								<td><input type="text" name="web_info_{$value['id']}" value="{#WEB_INFO}"/></td>
+								<td>
+									<input type="text" name="link_{$value['id']}" value="{$value['link']}"/>
+								</td>
+								<td>
+									<input type="text" name="info_{$value['id']}" value="{$value['info']}"/>
+								</td>
+								<td>
+									<input type="text" name="level_{$value['id']}" value="{$value['level']}"/>
+								</td>
+								<td>
+									<input type="checkbox" name="id[]" value="{value['id']}"/>
+								</td>
+							</tr>
+						{/foreach}
+							<tr>
+								<td>
+									<input type="text" name="add_link"/>
+								</td>
+								<td>
+									<input type="text" name="add_info"/>
+								</td>
+								<td>
+									<input type="text" name="add_level"/>
+								</td>
+							</tr>
+						</table>
+
+							<button type="submit"  class="super normal button" name="add">
+								<li class="fa fa-paper-plane"></li>添加友链
+							</button>
+							<button type="submit"  class="super normal button" name="delete">
+								<li class="fa fa-paper-plane"></li>删除友链
+							</button>
+							<button type="submit"  class="super normal button" name="update">
+								<li class="fa fa-paper-plane"></li> &nbsp;确认修改
+							</button>
+						</form>
+					</div>
+				</div>
+			{elseif $_GET['q'] == 3}
+				<div class="box" id="box">
+					<div class="header"> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 用户管理
+					</div>
+					<div class="cell">
+						<form method="post" action="{#WEB_SITE}/admin.php?q=3" >
+							<table>
+							<tr>
+								<th>用户名</th>
+								<th>用户积分</th>
+								<th>用户邮箱</th>
+								<th>用户锁定状态</th>
+								<th>选择</th>
+							</tr>
+							
+						{foreach $result as $value}
+							<tr>
+								<td>
+									{$value['username']}
+								</td>
+								<td>
+									<input type="text" name="coin_{$value['uid']}" value="{$value['coin']}"/>
+								</td>
+								<td>
+									{$value['email']}
+								</td>
+								<td>{if $value['usergrant']==999}锁定{else}未锁定{/if}</td>
+								<td>
+									<input type="checkbox" name="uid[]" value="{value['uid']}"/>
+								</td>
+							</tr>
+						{/foreach}
+							
+						</table>	
+
+							<div class="sep20"></div>
+							<button type="submit"  class="super normal button" name="delete">
+								<li class="fa fa-paper-plane"></li>删除用户
+							</button>
+							<button type="submit"  class="super normal button" name="ban">
+								<li class="fa fa-paper-plane"></li>锁定用户
+							</button>
+							<button type="submit"  class="super normal button" name="update">
+								<li class="fa fa-paper-plane"></li> 积分修改
+							</button>
+						</form>
+					</div>
+				</div>
+			{elseif $_GET['q'] == 4}
+				<div class="box" id="box">
+					<div class="header"> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 
+						<span class="chevron">&nbsp;›&nbsp;</span> 帖子管理
+					</div>
+					<div class="cell">
+						<form method="post" action="{#WEB_SITE}/admin.php?q=4" >
+							<table>
+							<tr>
+								<th>主题名</th>
+								<th>作者</th>
+								<th>选择</th>
+							</tr>
+							
+						{foreach $result as $value}
+							<tr>
+								
+								<th>
+									<a href="t.php?post={$value['pid']}">
+                                        {section} 
+                                        if (strlen($value['title'])>45) {
+                                            $sub = substr($value['title'],0,45);
+                                            echo $sub.'&nbsp;...';
+                                        } else {
+                                            echo $value['title'];
+                                        }
+                                        {/section}</a>
+								</th>
+
+								<td>
+									{$value['authorid']}
+								</td>
+								<td>
+									<input type="checkbox" name="pid[]" value="{value['pid']}"/>
+								</td>
+							</tr>
+						{/foreach}
+							
+
+
+							</table>	
+						</form>
+					</div>
+				</div>
+	{/if}
+	{/if}
+        </div>
+        <div class="c"></div>
+        <div class="sep20"></div>
+    </div>
+    <div id="Bottom">
+        <div class="content">
+            <div class="inner">
+                <div class="sep10"></div>                  
+				<div class="sep20"></div>                                     
+                <div class="sep10"></div>
+            </div>
+        </div>
+    </div>     
+</body>
+</html>

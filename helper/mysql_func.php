@@ -61,11 +61,12 @@ function update($link , $table , $data , $where)
 	}
 	
 	$sql = "update $table set $data where $where";
-
+	echo $sql;
 	$result = mysqli_query($link , $sql);
 	
 	return $result;
 }
+
 
 function parseSet($data)
 {
@@ -86,6 +87,7 @@ function select($link , $table , $fileds , $where)
 {
 	$sql = "select $fileds from $table where $where";
 	$result = mysqli_query($link , $sql);
+	echo $sql;
 
 	if ($result && mysqli_affected_rows($link)) {
 		while ($row = mysqli_fetch_assoc($result)) {
