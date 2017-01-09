@@ -17,6 +17,7 @@ $data['ctime'] = time();
 $data['authorid'] = $_COOKIE['authorid'];
 $data['content'] = trim($_POST['content']);
 $data['rid'] = $_POST['once'];
+$lastuser = $_COOKIE['username'];
 $table = DB_PREFIX.'post';
 
 
@@ -38,6 +39,8 @@ if ($coin['coin'] > 5 ) {
 	}
 //----------主题回复数更新
 	update($link , $table , 'rcount=rcount+1' , 'pid = '.$data['rid']);
+//----------最后回复来自
+	update($link , $table , "lastuser='$lastuser'" , 'pid = '.$data['rid']);
 
 //----------回帖扣除金币			
 	update($link , 'tt_user' , 'coin=coin-5' , "uid = {$data['authorid']}");
