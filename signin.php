@@ -2,7 +2,7 @@
 //----------------------登录功能
 include 'common/common.php';
 
-if (!empty($_POST['username']) || !empty($_POST['password'])) {
+if (!empty($_POST['submit'])) {
 //----------传入数据
 	$now_time = time();
 	$username = trim($_POST['username']);

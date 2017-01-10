@@ -1,7 +1,7 @@
 <?php
 //----------------------注册功能
 include './common/common.php';
-if (!empty($_POST['username']) || !empty($_POST['password']) || !empty($_POST['repassword']) || !empty($_POST['email'])) {
+if (!empty($_POST['submit'])) {
 //----------传入数据
 	$time = time();
 	$username = trim($_POST['username']);
