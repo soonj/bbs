@@ -73,9 +73,11 @@ function update($link , $table , $data , $where)
 /@param $link object
 /@param $table string
 /@param $data array
+/@param $id array
+/@param return boolean
 /
 */
-function update_array($link , $table , $data)
+function update_array($link , $table , $data , $ids)
 {
 	/*$data = array(
 	    title => array(	'1' => 2,
@@ -86,21 +88,20 @@ function update_array($link , $table , $data)
 	    					'3'),
 	);
 	*/
- 	reset($data);
- 	$current = current($data);
-	$ids = implode(',', array_keys($current));
+ 	$ids = implode(',', array_values($ids));
 	$sql = "UPDATE $table SET ";
 	foreach ($data as $key => $value) {
-		$sql .= "$key = CASE id ";
+		$sql .= "`$key` = CASE id ";
 		foreach ($value as $id => $ordinal) {
-	    $sql .= sprintf("WHEN %d THEN %d END,", $id, $ordinal);
+			var_dump($ordinal);
+	    $sql .= sprintf("WHEN %d THEN '%s' ", $id, $ordinal);
 		}
+		$sql .= 'END,';
 	}
 	$sql = rtrim($sql , ',');
 	$sql .= " WHERE id IN ($ids)";
-	//echo $sql;
+	echo $sql;
 	$result = mysqli_query($link , $sql);
-
 	return $result;
 }
 
