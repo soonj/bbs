@@ -32,6 +32,7 @@ function insert($link , $table , $data)
 	$values = implode(',' , parseValue($value));
 	
 	$sql = "insert into $table($fileds) values($values) ";
+	echo $sql;
 	$result = mysqli_query($link , $sql);
 	
 	if ($result) {
@@ -61,7 +62,7 @@ function update($link , $table , $data , $where)
 	}
 	
 	$sql = "update $table set $data where $where";
-	echo $sql;
+
 	$result = mysqli_query($link , $sql);
 	
 	return $result;
@@ -77,7 +78,7 @@ function update($link , $table , $data , $where)
 /@param return boolean
 /
 */
-function update_array($link , $table , $data , $ids)
+function update_array($link , $table , $data , $ids , $idName)
 {
 	/*$data = array(
 	    title => array(	'1' => 2,
@@ -91,16 +92,14 @@ function update_array($link , $table , $data , $ids)
  	$ids = implode(',', array_values($ids));
 	$sql = "UPDATE $table SET ";
 	foreach ($data as $key => $value) {
-		$sql .= "`$key` = CASE id ";
+		$sql .= "`$key` = CASE $idName ";
 		foreach ($value as $id => $ordinal) {
-			var_dump($ordinal);
 	    $sql .= sprintf("WHEN %d THEN '%s' ", $id, $ordinal);
 		}
 		$sql .= 'END,';
 	}
 	$sql = rtrim($sql , ',');
-	$sql .= " WHERE id IN ($ids)";
-	echo $sql;
+	$sql .= " WHERE $idName IN ($ids)";
 	$result = mysqli_query($link , $sql);
 	return $result;
 }
@@ -124,7 +123,6 @@ function select($link , $table , $fileds , $where)
 {
 	$sql = "select $fileds from $table where $where";
 	$result = mysqli_query($link , $sql);
-	echo $sql;
 
 	if ($result && mysqli_affected_rows($link)) {
 		while ($row = mysqli_fetch_assoc($result)) {
