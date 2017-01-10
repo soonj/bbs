@@ -14,7 +14,7 @@ if (!empty($_GET['nowPage'])) {
 	$offset = 0;
 }
 //----------分页查询主题信息
-$sql = "SELECT username as author_name,pid,hicon,title,rcount,lastuser,nodename,ctime,coin,retime from tt_user INNER JOIN tt_post ON uid = authorid WHERE tt_post.rid = 0 ORDER BY ctime DESC,retime DESC limit $offset,10";
+$sql = "SELECT username as author_name,pid,hicon,title,rcount,lastuser,nodename,ctime,coin,retime from tt_user INNER JOIN tt_post ON uid = authorid WHERE tt_post.rid = 0 AND tt_post.display = 1 ORDER BY ctime DESC,retime DESC limit $offset,10";
 $result = mysqli_query($link,$sql);
 //----------主题页数查询赋值
 $count = select($link , 'tt_post' , 'count(pid)' , 'rid = 0');
