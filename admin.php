@@ -3,8 +3,6 @@
 include './common/common.php';
 
 //管理员登录判断
-if (true) {
-	# code...
 
 //表单未传值
 	if (!empty($_GET['q']) && empty($_POST)) {
@@ -16,7 +14,6 @@ if (true) {
 				$table = DB_PREFIX.'tab';
 				$title = '板块管理';
 				$result = select($link , $table , '*' , 'id > 0');
-				var_dump($result);
 				break;
 			//友链查询
 			case '2':
@@ -34,201 +31,144 @@ if (true) {
 			case '4':
 				$table = DB_PREFIX.'post';
 				$title = '帖子管理';
-				$result = select($link , $table , '*' , 'pid > 0 and rid=0');
+				$result = select($link , $table , '*' , 'pid > 0 and rid=0 and display=1');
 				break;
 		}
 
 		display('admin/admin.html' , compact('result' , 'title'));
-	} elseif(!empty($_GET['q']) && !empty($_POST)) {
-//表单传值修改
+	} elseif(!empty($_GET['q']) && !empty($_POST['submit'])) {
 		$model = $_GET['q'];
+		$submit = $_POST['submit'];
 		switch ($model) {
-			//板块查询
 			case '1':
-				$table = DB_PREFIX.'tab';
-				$title = '板块管理';
-			//多选框批量删除
-				$id = $_POST['id'];
-				if (is_array($id)) {
+			$table = DB_PREFIX.'tab';
+				switch ($submit) {
+					case '添加板块':
+						$data['tabname'] = $_POST['add_tabname'];
+						$data['info'] = $_POST['add_info'];
+						$data['scythe'] = $_POST['add_scythe'];
+						$result = insert($link , $table , $data);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 
-					//多选id处理
-					$id = implode($id , ',');
-					$where = "id in ($id)";
+					case '批量删除板块':
+						$id = $_POST['id'];
+						$data['display'] = 0 ; 
+						if (is_array($id)) {
+							$id = implode($id , ',');
+							$where = "id in ($id)";
+						} else {
+							$where = "id = $id";
+						}
+						$result = update($link , $table , $data , $where);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 
-					//删除选项
-					if ($_POST['delete']) {
-						$data['hidden'] = 0;
-						update($link , $table , $data , $where);
-					}elseif ($_POST['update']) {
-					//更新选项
-						$data['tabname'] = $_POST['tabname'];
-						$data['logo'] = $_POST['logo'];
-						$data['info'] = $_POST['info'];
-						$data['scythe'] = $_POST['scythe'];
-						update($link , $table , $data , $where);
-					}
-				} else {
+					case '提交修改':
+						$id = $_POST['id'];
+						//截取前四个数组元素
+						$data = array_slice($_POST, 0 , 3);
+						$idName = 'id';
+						$result = update_array($link , $table , $data ,$id , $idName);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 
-			//单选管理
-					$where = "id = $id";
-			//添加板块
-					if ($_POST['add']) {
-						$data['add_tabname'] = $_POST['add_tabname'];
-						$data['add_logo'] = $_POST['add_logo'];
-						$data['add_info'] = $_POST['add_info'];
-						$data['add_scythe'] = $_POST['add_scythe'];
-						insert($link , $table , $data);
-					}elseif ($_POST['delete']) {
-			//删除板块	
-						$data['hidden'] = 1;
-						update($link , $table , $data , $where);	
-					}elseif ($_POST['update']) {
-			//更新板块
-						$data['tabname'] = $_POST['tabname'];
-						$data['logo'] = $_POST['logo'];
-						$data['info'] = $_POST['info'];
-						$data['scythe'] = $_POST['scythe'];
-						update($link , $table , $data , $where);
-					}
 				}
 				break;
-			//友链查询
+
 			case '2':
-				$table = DB_PREFIX.'friend';
-				$title = '站点信息';
-				$id = $_POST['id'];
-				if (is_array($id)) {
+			$table = DB_PREFIX.'friend';
+				switch ($submit) {
+					case '添加友链':
+						$data['link'] = $_POST['add_link'];
+						$data['info'] = $_POST['add_info'];
+						$data['level'] = $_POST['add_level'];
+						$result = insert($link , $table , $data);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 
-					//多选id处理
-					$id = implode($id , ',');
-					$where = "id in ($id)";
+					case '删除友链':
+						$id = $_POST['id'];
+						$data['display'] = 0 ; 
+						if (is_array($id)) {
+							$id = implode($id , ',');
+							$where = "id in ($id)";
+						} else {
+							$where = "id = $id";
+						}
+						$result = update($link , $table , $data , $where);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 
-					//删除选项
-					if ($_POST['delete']) {
-						$data['hidden'] = 0;
-						update($link , $table , $data , $where);
-					}elseif ($_POST['update']) {
-					//更新选项
-						$data['add_link'] = $_POST['add_link'];
-						$data['add_info'] = $_POST['add_info'];
-						$data['add_level'] = $_POST['add_level'];
-						update($link , $table , $data , $where);
-					}
-				} else {
-
-			//单选管理
-					$where = "id = $id";
-			//添加友链
-					if ($_POST['add']) {
-						$data['add_link'] = $_POST['add_link'];
-						$data['add_info'] = $_POST['add_info'];
-						$data['add_level'] = $_POST['add_level'];
-						insert($link , $table , $data);
-					}elseif ($_POST['delete']) {
-			//删除友链	
-						$data['hidden'] = 1;
-						update($link , $table , $data , $where);	
-					}elseif ($_POST['update']) {
-			//更新友链
-						$data['add_link'] = $_POST['add_link'];
-						$data['add_info'] = $_POST['add_info'];
-						$data['add_level'] = $_POST['add_level'];
-						update($link , $table , $data , $where);
-					}
+					case '确认修改':
+						$id = $_POST['id'];
+					//截取前三个数组元素
+						$data = array_slice($_POST, 0 , 3);
+						$idName = 'id';
+						$result = update_array($link , $table , $data ,$id);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 				}
 				break;
-			//用户查询
+
 			case '3':
-				$table = DB_PREFIX.'user';
-				$title = '用户管理';
-				$uid = $_POST['uid'];
-				if (is_array($uid)) {
+			$table = DB_PREFIX.'user';
+				switch ($submit) {
+					case '删除用户':
+						$id = $_POST['uid'];
+						$data['usergrant'] = 1 ; 
+						if (is_array($id)) {
+							$id = implode($id , ',');
+							$where = "uid in ($id)";
+						} else {
+							$where = "uid = $id";
+						}
+						$result = update($link , $table , $data , $where);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 
-					//多选id处理
-					$uid = implode($uid , ',');
-					$where = "uid in ($uid)";
+					case '锁定用户':
+						$id = $_POST['uid'];
+						$data['usergrant'] = 999 ; 
+						if (is_array($id)) {
+							$id = implode($id , ',');
+							$where = "uid in ($id)";
+						} else {
+							$where = "uid = $id";
+						}
+						$result = update($link , $table , $data , $where);
+						echo ($result == true ? '成功':'失败'); 
+						break;
 
-					//锁定用户
-					if ($_POST['delete']) {
-						$data['usergrant'] = 1;
-						update($link , $table , $data , $where);
-					}elseif ($_POST['ban']) {
-						$data['usergrant'] = 999;
-						update($link , $table , $data , $where);
-					}elseif ($_POST['update']) {
-					//积分修改
-						$data['coin'] = $_POST['coin'];
-						update($link , $table , $data , $where);
-					}
-				} else {
-
-			//单选管理
-					$where = "uid = $uid";
-			//删除用户
-					if ($_POST['delete']) {
-						$data['usergrant'] = 1;
-						update($link , $table , $data , $where);
-					}elseif ($_POST['ban']) {
-			//锁定用户
-						$data['usergrant'] = 999;
-						update($link , $table , $data , $where);	
-					}elseif ($_POST['update']) {
-			//积分修改
-						$data['coin'] = $_POST['coin'];
-						update($link , $table , $data , $where);
-					}
+					case '积分修改':
+						$id = $_POST['uid'];
+						$idName = 'uid';
+					//截取第一个数组元素
+						$data = array_slice($_POST, 0 , 1);
+						var_dump($data);
+						$result = update_array($link , $table , $data ,$id , $idName);
+						echo ($result == true ? '成功':'失败'); 
+						break;
+					
 				}
 				break;
-			//帖子查询
+
 			case '4':
-				$table = DB_PREFIX.'post';
-				$title = '帖子管理';
-				$pid = $_POST['pid'];
-				if (is_array($id)) {
-			//多选id处理
-					$id = implode($id , ',');
-					$where = "pid in ($pid)";
-
-				//锁定用户
-					if ($_POST['delete']) {
-						$data['usergrant'] = 1;
-						update($link , $table , $data , $where);
+			$table = DB_PREFIX.'post';
+				switch ($submit) {
+					case '删除主题':
+						$id = $_POST['pid'];
+						$data['display'] = 0 ; 
+						if (is_array($id)) {
+							$id = implode($id , ',');
+							$where = "pid in ($id)";
+						} else {
+							$where = "pid = $id";
+						}
+						$result = update($link , $table , $data , $where);
+						echo ($result == true ? '成功':'失败'); 
 						break;
-					}elseif ($_POST['ban']) {
-						$data['usergrant'] = 999;
-						update($link , $table , $data , $where);
-						break;
-					}elseif ($_POST['update']) {
-				//积分修改
-						$data['coin'] = $_POST['coin'];
-						update($link , $table , $data , $where);
-						break;
-					}
-				} else {
-
-			//单选管理
-					$where = "uid = $uid";
-			//删除用户
-					if (!empty($_POST['delete'])) {
-						$data['usergrant'] = 1;
-						update($link , $table , $data , $where);
-					}elseif (!empty($_POST['ban'])) {
-			//锁定用户	
-						echo 1111;
-						$data['usergrant'] = 999;
-						update($link , $table , $data , $where);	
-					}elseif (!empty($_POST['update'])) {
-			//积分修改
-						$data['coin'] = $_POST['coin'];
-						update($link , $table , $data , $where);
-					}
 				}
-				break;
+				break;		
 		}
-
 	}
-
-} else {
-
-
-}
