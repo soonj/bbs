@@ -68,7 +68,6 @@
 					</div>
 					<div class="cell">
 						<form method="post" action="{#WEB_SITE}/admin.php?q=1" enctype="multipart/form-data">
-						{section}var_dump($result);{/section}
 						<table>
 							<tr>
 								<th>板块名</th>
@@ -82,46 +81,46 @@
 						{foreach $result as $value}
 							<tr>
 								<td>
-									<input type="text" name="tabname_{$value['id']}" value="{$value['tabname']}"/>
+									<input type="text" name="tabname['{$value['id']}']" value="{$value['tabname']}"/>
 								</td>
 								<td>
-									<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
-									<input type="file" name="logo_{$value['id']}" />选择新LOGO
-									<img src="{$value['logo']}"/>
+									当前LOGO
+									<img src="{$value['logo']}" style="width:50px; height:50px"/>
 								</td>
 								<td>
-									<input name="info_{$value['id']}" value="{$value['info']}"/>
+									<input name="info['{$value['id']}']" value="{$value['info']}"/>
 								</td>
 								<td>
-									<input type="text" name="scythe_{$value['id']}" value="{$value['scythe']}"/>
+									<input type="text" name="scythe['{$value['id']}']" value="{$value['scythe']}"/>
 								</td>
-								<td>{if $value['hidden']==0}显示{else}不显示{/if}</td>
+								<td>{if $value['display']==1}显示{else}不显示{/if}</td>
 								<td>
 									<input type="checkbox" name="id[]" value="{$value['id']}" />
 								</td>
 							</tr>
 						{/foreach}
+						<!--添加板块-->
 							<tr>
 								<td>
 									<input type="text" name="add_tabname"/>
+								</td>
+								<td>
 									<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 									<input type="file" name="add_logo"/>
+								</td>
+								<td>
 									<input type="text" name="add_info"/>
+								</td>
+								<td>
 									<input type="text" name="add_scythe"/>
 								</td>
 							</tr>
 
 						</table>
 
-							<button type="submit"  class="super normal button" name="add">
-								<li class="fa fa-paper-plane"></li>添加板块
-							</button>
-							<button type="submit"  class="super normal button" name="delete">
-								<li class="fa fa-paper-plane"></li>批量删除板块
-							</button>
-							<button type="submit"  class="super normal button" name="update">
-								<li class="fa fa-paper-plane"></li>提交修改
-							</button>
+							<input type="submit"  class="super normal button" name="submit" value="添加板块"/>
+							<input type="submit"  class="super normal button" name="submit" value="批量删除板块"/>
+							<input type="submit"  class="super normal button" name="submit" value="提交修改"/>
 
 						</form>
 					</div>
@@ -140,7 +139,7 @@
 								
 							</tr>
 							<tr>
-								<th>站点信息</th>
+								
 								<th>友情链接</th>
 								<th>友链描述</th>
 								<th>优先级</th>
@@ -148,18 +147,18 @@
 							
 						{foreach $result as $value}
 							<tr>
-								<td><input type="text" name="web_info_{$value['id']}" value="{#WEB_INFO}"/></td>
+								
 								<td>
-									<input type="text" name="link_{$value['id']}" value="{$value['link']}"/>
+									<input type="text" name="link[{$value['id']}]" value="{$value['link']}"/>
 								</td>
 								<td>
-									<input type="text" name="info_{$value['id']}" value="{$value['info']}"/>
+									<input type="text" name="info[{$value['id']}]" value="{$value['info']}"/>
 								</td>
 								<td>
-									<input type="text" name="level_{$value['id']}" value="{$value['level']}"/>
+									<input type="text" name="level[{$value['id']}]" value="{$value['level']}"/>
 								</td>
 								<td>
-									<input type="checkbox" name="id[]" value="{value['id']}"/>
+									<input type="checkbox" name="id[]" value="{$value['id']}"/>
 								</td>
 							</tr>
 						{/foreach}
@@ -176,15 +175,9 @@
 							</tr>
 						</table>
 
-							<button type="submit"  class="super normal button" name="add">
-								<li class="fa fa-paper-plane"></li>添加友链
-							</button>
-							<button type="submit"  class="super normal button" name="delete">
-								<li class="fa fa-paper-plane"></li>删除友链
-							</button>
-							<button type="submit"  class="super normal button" name="update">
-								<li class="fa fa-paper-plane"></li> &nbsp;确认修改
-							</button>
+							<input type="submit"  class="super normal button" name="submit" value="添加友链"/>
+							<input type="submit"  class="super normal button" name="submit" value="删除友链"/>
+							<input type="submit"  class="super normal button" name="submit" value="确认修改"/>
 						</form>
 					</div>
 				</div>
@@ -211,30 +204,23 @@
 									{$value['username']}
 								</td>
 								<td>
-									<input type="text" name="coin_{$value['uid']}" value="{$value['coin']}"/>
+									<input type="text" name="coin[{$value['uid']}]" value="{$value['coin']}"/>
 								</td>
 								<td>
 									{$value['email']}
 								</td>
 								<td>{if $value['usergrant']==999}锁定{else}未锁定{/if}</td>
 								<td>
-									<input type="checkbox" name="uid[]" value="{value['uid']}"/>
+									<input type="checkbox" name="uid[]" value="{$value['uid']}"/>
 								</td>
 							</tr>
 						{/foreach}
 							
 						</table>	
-
+							<input type="submit"  class="super normal button" name="submit" value="删除用户"/>
+							<input type="submit"  class="super normal button" name="submit" value="锁定用户"/>
+							<input type="submit"  class="super normal button" name="submit" value="积分修改"/>
 							<div class="sep20"></div>
-							<button type="submit"  class="super normal button" name="delete">
-								<li class="fa fa-paper-plane"></li>删除用户
-							</button>
-							<button type="submit"  class="super normal button" name="ban">
-								<li class="fa fa-paper-plane"></li>锁定用户
-							</button>
-							<button type="submit"  class="super normal button" name="update">
-								<li class="fa fa-paper-plane"></li> 积分修改
-							</button>
 						</form>
 					</div>
 				</div>
@@ -272,14 +258,13 @@
 									{$value['authorid']}
 								</td>
 								<td>
-									<input type="checkbox" name="pid[]" value="{value['pid']}"/>
+									<input type="checkbox" name="pid[]" value="{$value['pid']}"/>
 								</td>
 							</tr>
 						{/foreach}
-							
+							</table>
 
-
-							</table>	
+							<input type="submit"  class="super normal button" name="submit" value="删除主题"/>	
 						</form>
 					</div>
 				</div>
