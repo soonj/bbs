@@ -17,7 +17,7 @@ if (!empty($_GET['nowPage'])) {
 $sql = "SELECT username as author_name,pid,hicon,title,rcount,lastuser,nodename,ctime,coin,retime from tt_user INNER JOIN tt_post ON uid = authorid WHERE tt_post.rid = 0 AND tt_post.display = 1 ORDER BY ctime DESC,retime DESC limit $offset,10";
 $result = mysqli_query($link,$sql);
 //----------主题页数查询赋值
-$count = select($link , 'tt_post' , 'count(pid)' , 'rid = 0');
+$count = select($link , 'tt_post' , 'count(pid)' , 'rid = 0 and display = 1');
 $pageCount = $count[0]['count(pid)'] / 10;
 
 //----------遍历输出到数组
