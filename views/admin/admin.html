@@ -246,7 +246,7 @@
 									<a href="t.php?post={$value['pid']}">
                                         {section} 
                                         if (strlen($value['title'])>45) {
-                                            $sub = substr($value['title'],0,45);
+                                            $sub = mb_substr($value['title'],0,45,'utf-8');
                                             echo $sub.'&nbsp;...';
                                         } else {
                                             echo $value['title'];
