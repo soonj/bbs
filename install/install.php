@@ -1,116 +1,117 @@
 <?php
 if(file_exists('../install.lock')){
-		exit('网站已经被安装过了，如果需要重新安装网站，请删除 /install.lock 文件');
+		exit('网站已被安装，如果需要重新安装网站，请删除 /install.lock 文件');
 	}
-$submit = $_POST['submit'];
-switch ($submit) {
-	case '第一步':
-		break;
+if (!empty($_POST['submit']) && $_POST['submit'] == 'success') {
+	//加载数据库文件
+		include '../config/database.php';
 
-	case '第二步':
-			function iswriteable($file){
-				if(is_dir($file)){
-					$dir=$file;
-					if($fp = fopen("$dir/test.txt", 'w')) {
-						fclose($fp);
-						unlink("$dir/test.txt");
-						$writeable = 1;
-					}else{
-						$writeable = 0;
-					}
-				}else{
-					if($fp = fopen($file, 'a+')) {
-						fclose($fp);
-						$writeable = 1;
-					}else {
-						$writeable = 0;
-					}
-				}
-				return $writeable;
+		$link=mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+
+			if(mysqli_errno($link)){
+
+				exit(mysqli_error($link));
 			}
-		break;
 
-	case '第三步':
-		//--------------------------------------------------------------------
-			if(!empty($_POST['dbsubmitname'])){
-	
-				$str=file_get_contents('../config/database.php');
-				
-				foreach($_POST as $key=>$val){
-					
-					$pattern="/define\('$key','.*?'\);/";
-					$replace="define('$key','$val');";
-				
-					$str=preg_replace($pattern, $replace, $str);
+			mysqli_set_charset($link, DB_CHARSET);
 
-				}
-				
-				file_put_contents('../config/database.php',$str);
+			$admin_user = trim($_POST['admin_user']);
 
-				//执行数据库导入
-				include '../config/database.php';
-				
-				//新建数据库
-				$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS);
-				if(mysqli_get_server_info($link) > '4.1') {
-					mysqli_query($link, "CREATE DATABASE IF NOT EXISTS `".DB_NAME."` DEFAULT CHARACTER SET ".DB_CHARSET);
-				} else {
-					mysqli_query($link, "CREATE DATABASE IF NOT EXISTS `".DB_NAME."`");
-				}
-				if(mysqli_connect_errno($link)){
-					exit('数据库不存在');
-				}
-				mysqli_close($link);
-					
-				$sql=file_get_contents('apple_bbs.sql');
-				$conn=mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-				if(mysqli_errno($conn)){
+			$admin_pwd = password_hash(trim($_POST['admin_pwd']), PASSWORD_DEFAULT);
 
-					exit(mysqli_error($conn));
-				}
-				mysqli_set_charset($conn, DB_CHARSET);
-				
-				$arr=explode(';phpxy;',$sql);
+			$time=time();
 
-				foreach($arr as $val){
-					if(!empty($val))
-					{
-						$Nval = str_replace('bbs_', DB_PREFIX, $val);
-						$result = mysqli_query($conn, $Nval);
+			//处理IP
+			if ($_SERVER['REMOTE_ADDR'] == '::1') {
+				$ip = ip2long('127.0.0.1');
+			} else {
+				$ip = ip2long($_SERVER['REMOTE_ADDR']);				
+			}
 
-						if($result){
-								$sql = '<font color="green">数据库导入成功</font>';
-						}else{
-								$sql = '<font color="red">数据库导入失败</font>';
+
+			$admin_mail = trim($_POST['admin_mail']);
+
+			$sql = "insert into ".DB_PREFIX."user(uid,username,password,email,usergrant,rtime,ip) values(1,'{$admin_user}','{$admin_pwd}','{$admin_mail}',7,$time,$ip)";
+
+			echo $sql;
+
+			$result=mysqli_query($link, $sql);
+
+			if($result && mysqli_affected_rows($link))
+			{
+
+				file_put_contents('../install.lock','');
+				echo '安装成功';
+				header('location:../index.php');
+				exit();
+
+			}else{
+
+				echo mysqli_error($link);
+
+				echo '添加管理员失败';
+
+				exit();
+
+			}
+
+			mysqli_close($link);
+}elseif (!empty($_POST['submit']) && $_POST['submit'] == 'database') {
+						$str = file_get_contents('../config/database.php');
+						//遍历表单内容
+						
+						foreach($_POST as $key=>$val){
+							$pattern="#define\('$key','.*?'\);#";
+							$replace="define('$key','$val');";
+						//替换关键字写入数据
+							$str=preg_replace($pattern, $replace, $str);
 						}
-					}
-				}
-				
-				mysqli_close($conn);
-				
-			}
+						file_put_contents('../config/database.php',$str);
 
+						//加载数据库文件
+						include '../config/database.php';
+						
+						//新建数据库
+						$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS);
+						//创建数据库
+						mysqli_query($link, "CREATE DATABASE IF NOT EXISTS `".DB_NAME."`");
+						if(mysqli_connect_errno($link)){
+							exit('数据库不存在<a href='.$_SERVER['HTTP_REFERER'].'>返回</a>');
+						}
+						mysqli_close($link);
+						//展开数据库文件	
+						$sql = file_get_contents('ticktock.sql');
+						//链接数据库并选择
+						$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+						if(mysqli_errno($link)){
+							exit(mysqli_error($link));
+						}
+						mysqli_set_charset($link, DB_CHARSET);
+						
+						$sql=explode(';',$sql);
+						//执行sql语句
+						foreach($sql as $value){
+							if(!empty($value))
+							{
+								$prefix = str_replace('tt_', DB_PREFIX, $value);
+								$result = mysqli_query($link, $prefix);
+								if($result){
+										$db_result = 1;
+										
+								}else{
+										$db_result = 0;
+										header( 'location:./install.php?step=4' );
+										exit('数据库插入错误');
+								}
+							}
+						}
 
-
-
-
-		//----------------------------------------------------------------
-		break;
-
-	case '第四步':
-		# code...
-		break;
-	
-	default:
-		
-		break;
-}
-
-
-
-
-
-
+						if ($db_result == 1) {
+							header( 'location:./install.php?step=4&&success=1' );
+						}
+						echo $db_result ;
+						mysqli_close($link);
+}	
 ?>
 <html>
 	<head>
@@ -118,6 +119,10 @@ switch ($submit) {
 	<meta charset="utf-8"/>
 	</head>
 	<body>
+		<?php  if (empty($_GET['step'])):
+				header('location:./install.php?step=1');?>
+
+		<?php else:?>
 		<?php switch ($_GET['step']) :
 			case '1':?>
 				<table>
@@ -132,25 +137,56 @@ switch ($submit) {
 						<td>操作系统</td>
 						<td>不限制</td>
 						<td>Linux</td>
-						<td><?php echo PHP_OS == true? 'ok'.PHP_OS : 'failed' ?></td>
+						<td><?php $os_result = PHP_OS == true ? 'ok' : 'failed'; 
+								  echo $os_result.PHP_OS;?></td>
 					</tr>
 					<tr>
 						<td>PHP版本</td>
 						<td>5.5.x</td>
 						<td>5.5.x</td>
-						<td><?php echo PHP_VERSION > '5.5.0'? 'ok'.PHP_VERSION : 'failed' ?></td>
+						<td><?php  $php_v = version_compare(PHP_VERSION,'5.3.0','ge') == true ? 'ok' : 'failed';
+								  echo $php_v.PHP_VERSION; ?></td>
 					</tr>
 				</table>
 				<div>
+					<?php if($os_result=='ok' && $php_v=='ok'):?>
 					<button type="submit" name="submit" value="第二步">
 						<a href="http://localhost/document/bbs/install/install.php?step=2">
 							下一步
 						</a>
 					</button>
+					<?php else:?>
+					<button type="disabled">
+							系统错误请检查
+					</button>
+					<?php endif;?>
 				</div>
-				<?break;?>
+				<?php break;?>
 
 			<?php case '2':?>
+
+			<?php 
+				function iswriteable($file){
+						if(is_dir($file)){
+							$dir=$file;
+							if($fp = fopen("$dir/test.txt", 'w')) {
+								fclose($fp);
+								unlink("$dir/test.txt");
+								$writeable = 1;
+							}else{
+								$writeable = 0;
+							}
+						}else{
+							if($fp = fopen($file, 'a+')) {
+								fclose($fp);
+								$writeable = 1;
+							}else {
+								$writeable = 0;
+							}
+						}
+						return $writeable;
+					}
+			?>
 				<table>
 					<caption>第二步：文件权限检查</caption>
 					<tr>
@@ -161,31 +197,36 @@ switch ($submit) {
 					<tr>
 						<td>./caches</td>
 						<td>可写</td>
-						<td><?php echo  iswriteable('../caches')==1 ? '可写' : '不可写' ?></td>
+						<td><?php $dir_result_caches = iswriteable('../caches')==1 ? 'ok' : 'no';
+									echo $dir_result_caches; ?></td>
 					</tr>
 
 					<tr>
 						<td>./views</td>
 						<td>可写</td>
-						<td><?php echo  iswriteable('../views')==1 ? '可写' : '不可写' ?></td>
+						<td><?php $dir_result_views = iswriteable('../views')==1 ? 'ok' : 'no' ;
+									echo  $dir_result_views;?></td>
 					</tr>
 
 					<tr>
 						<td>./upload</td>
 						<td>可写</td>
-						<td><?php echo  iswriteable('../upload')==1 ? '可写' : '不可写' ?></td>
+						<td><?php $dir_result_upload = iswriteable('../upload')==1 ? 'ok' : 'no' ;
+									echo  $dir_result_upload;?></td>
 					</tr>
 
 					<tr>
-						<td>./cofig/config.php</td>
+						<td>./config/config.php</td>
 						<td>可写</td>
-						<td><?php echo  iswriteable('../cofig/config.php')==1 ? '可写' : '不可写' ?></td>
+						<td><?php $dir_result_config = iswriteable('../config/config.php')==1 ? 'ok' : 'no';
+								echo  $dir_result_config; ?></td>
 					</tr>
 
 					<tr>
-						<td>./cofig/database.php</td>
+						<td>./config/database.php</td>
 						<td>可写</td>
-						<td><?php echo  iswriteable('../cofig/database.php')==1 ? '可写' : '不可写' ?></td>
+						<td><?php $dir_result_db = iswriteable('../config/database.php')==1 ? 'ok' : 'no';
+								echo  $dir_result_db; ?></td>
 					</tr>
 					
 				</table>
@@ -195,15 +236,24 @@ switch ($submit) {
 							上一步
 						</a>
 					</button>
+					<?php $dir_result = $dir_result_caches.$dir_result_views.$dir_result_upload.$dir_result_config.$dir_result_db;
+					if($dir_result == 'okokokokok'):?>
 					<button type="submit" name="submit" value="第三步">
 						<a href="http://localhost/document/bbs/install/install.php?step=3">
 							下一步
 						</a>
 					</button>
+					<?php else:?>
+					<button type="disabled">
+							文件错误请检查
+					</button>
+					<?php endif;?>
+
 				</div>
 				<?php break;?>
 
 			<?php case '3':?>
+			<form action="./install.php?step=4" method="post">
 				<table>
 					<caption>第三步：创建数据库</caption>
 					<tr>
@@ -214,27 +264,27 @@ switch ($submit) {
 					</tr>
 					<tr>
 						<td>数据库服务器：</td>
-						<td><input type="text" name="hostname" value="localhost"/></td>
+						<td><input type="text" name="DB_HOST" value="localhost"/></td>
 						<td>数据库服务器地址, 一般为 localhost</td>
 					</tr>
 					<tr>
 						<td>数据库名:</td>
-						<td><input type="text" name="db_name" value="tick_tock"/></td>
+						<td><input type="text" name="DB_NAME" value="ticktock"/></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>数据库用户名:</td>
-						<td><input type="text" name="db_username" value="root"/></td>
+						<td><input type="text" name="DB_USER" value="root"/></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>数据库密码:</td>
-						<td><input type="text" name="db_pwd" value=""/></td>
+						<td><input type="text" name="DB_PASS" value=""/></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>数据表前缀:</td>
-						<td><input type="text" name="db_prefix" value="tt_"/></td>
+						<td><input type="text" name="DB_PREFIX" value="tt_"/></td>
 						<td>同一数据库运行多个论坛时，请修改前缀</td>
 					</tr>
 				</table>
@@ -244,15 +294,22 @@ switch ($submit) {
 							上一步
 						</a>
 					</button>
-					<button type="submit" name="submit" value="第四步">
-						<a href="http://localhost/document/bbs/install/install.php?step=4">
+					<button type="submit" name="submit" value="database">
 							下一步
-						</a>
 					</button>
 				</div>
+			</form>
 				<?php break;?>
 
 			<?php case '4':?>
+
+				<?php if (empty($_GET['success']) || $_GET['success']!=1):
+					echo '数据库导入失败';
+					exit();
+					endif;?>
+
+			<form action="./install.php?step=5" method="post">
+				<h1>数据库导入成功</h1>
 				<table>
 					<caption>第四步：安装</caption>
 					<tr>
@@ -264,7 +321,6 @@ switch ($submit) {
 					<tr>
 						<td>管理员账号：</td>
 						<td><input type="text" name="admin_user" value=""/></td>
-						<td><?php echo PHP_OS true? 'ok'.PHP_OS : 'failed' ?></td>
 					</tr>
 					<tr>
 						<td>管理员密码:</td>
@@ -274,19 +330,20 @@ switch ($submit) {
 					<tr>
 						<td>管理员 Email:</td>
 						<td><input type="text" name="admin_mail" value=""/></td>
-						<td><?php echo PHP_VERSION > '5.5.0'? 'ok'.PHP_VERSION : 'failed' ?></td>
 					</tr>
 				</table>
 				<div>
-					<button>
-						<a href="http://localhost/document/bbs/install/install.php">
+					<button type="submit" name="submit" value="success">
 							完成
-						</a>
 					</button>
 				</div>
+			</form>
+				
+
+					
 				<?php break;?>
 
-		<?php endswitch;?>
-
+			<?php endswitch;?>
+<?php endif;?>
 	</body>
 </html>

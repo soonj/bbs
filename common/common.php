@@ -1,4 +1,10 @@
 <?php
+if(!file_exists('./install.lock')){
+		header('location:./install/install.php');
+		exit();
+	}
+
+
 	header('content-type:text/html; charset=utf-8;');
 	
 	
