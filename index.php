@@ -22,17 +22,17 @@ if (!empty($_GET['nowPage'])) {
 //--------查询节点信息
 
 $tab = select($link , DB_PREFIX.'tab' , '*' , "id > 0");
-if (!empty($_GET['tab'])) {
-	$tabname = $_GET['tab'];
-	$tab_result = select($link , DB_PREFIX.'tab' , '*' , "tabname = '$tabname'");
-}
-
 
 //----------分页查询主题信息
-if (!empty($_GET['tab'])) {
+if (!empty($_GET['tab']) && empty($_GET['go'])) {
+	$tabname = $_GET['tab'];
+	$tab_result = select($link , DB_PREFIX.'tab' , '*' , "tabname = '$tabname'");
 	$sql = 'SELECT username as author_name,pid,hicon,title,rcount,lastuser,nodename,ctime,coin,retime from '.DB_PREFIX.'user INNER JOIN tt_post ON uid = authorid INNER JOIN '.DB_PREFIX.'tab ON nodename = tabname WHERE '.DB_PREFIX.'post.rid = 0 AND '.DB_PREFIX.'post.display = 1 AND parentid = '.$tab_result[0]['id'].' ORDER BY ctime DESC,retime DESC limit '.$offset.',10';
-}elseif (!empty($_GET['go'])) {
-	$sql = 'SELECT username as author_name,pid,hicon,title,rcount,lastuser,nodename,ctime,coin,retime from '.DB_PREFIX.'user INNER JOIN tt_post ON uid = authorid INNER JOIN '.DB_PREFIX.'tab ON nodename = tabname WHERE '.DB_PREFIX.'post.rid = 0 AND '.DB_PREFIX.'post.display = 1 ORDER BY ctime DESC,retime DESC limit '.$offset.',10';
+}elseif (!empty($_GET['go']) && !empty($_GET['tab'])) {
+	$tabname = $_GET['tab'];
+	$tab_result = select($link , DB_PREFIX.'tab' , '*' , "tabname = '$tabname'");
+	$goname = $_GET['go'];
+	$sql = 'SELECT username as author_name,pid,hicon,title,rcount,lastuser,nodename,ctime,coin,retime from '.DB_PREFIX.'user INNER JOIN tt_post ON uid = authorid INNER JOIN '.DB_PREFIX.'tab ON nodename = tabname WHERE '.DB_PREFIX.'post.rid = 0 AND '.DB_PREFIX.'post.display = 1 AND '.DB_PREFIX.'post.nodename = "'.$goname.'" ORDER BY ctime DESC,retime DESC limit '.$offset.',10';
 }elseif (empty($_GET['go']) && empty($_GET['tab'])) {
 	$sql = 'SELECT username as author_name,pid,hicon,title,rcount,lastuser,nodename,ctime,coin,retime from '.DB_PREFIX.'user INNER JOIN '.DB_PREFIX.'post ON uid = authorid WHERE '.DB_PREFIX.'post.rid = 0 AND '.DB_PREFIX.'post.display = 1 ORDER BY ctime DESC,retime DESC limit '.$offset.',10';
 }
