@@ -3,7 +3,13 @@
 include './common/common.php';
 
 //管理员登录判断
-
+if (empty($_COOKIE['admin']) && empty($_COOKIE['username'])) {
+	header('location:./admin_signin.php');
+	exit();
+}elseif (!empty($_COOKIE['username'])) {
+	header('location:./logout.php');
+	exit();
+}
 //表单未传值
 	if (!empty($_GET['q']) && empty($_POST)) {
 		$model = $_GET['q'];
@@ -52,6 +58,11 @@ include './common/common.php';
 						break;
 
 					case '批量删除板块':
+						if (empty($_POST['id'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['id'];
 						$data['display'] = 0 ; 
 						if (is_array($id)) {
@@ -65,6 +76,11 @@ include './common/common.php';
 						break;
 
 					case '提交修改':
+						if (empty($_POST['id'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['id'];
 						//截取前四个数组元素
 						$data = array_slice($_POST, 0 , 3);
@@ -88,6 +104,11 @@ include './common/common.php';
 						break;
 
 					case '删除友链':
+						if (empty($_POST['id'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['id'];
 						$data['display'] = 0 ; 
 						if (is_array($id)) {
@@ -101,11 +122,16 @@ include './common/common.php';
 						break;
 
 					case '确认修改':
+						if (empty($_POST['id'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['id'];
 					//截取前三个数组元素
 						$data = array_slice($_POST, 0 , 3);
 						$idName = 'id';
-						$result = update_array($link , $table , $data ,$id);
+						$result = update_array($link , $table , $data ,$id , $idName);
 						echo ($result == true ? '成功':'失败'); 
 						break;
 				}
@@ -115,6 +141,11 @@ include './common/common.php';
 			$table = DB_PREFIX.'user';
 				switch ($submit) {
 					case '删除用户':
+						if (empty($_POST['uid'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['uid'];
 						$data['usergrant'] = 1 ; 
 						if (is_array($id)) {
@@ -128,6 +159,11 @@ include './common/common.php';
 						break;
 
 					case '锁定用户':
+						if (empty($_POST['uid'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['uid'];
 						$data['usergrant'] = 999 ; 
 						if (is_array($id)) {
@@ -141,6 +177,11 @@ include './common/common.php';
 						break;
 
 					case '积分修改':
+						if (empty($_POST['uid'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['uid'];
 						$idName = 'uid';
 					//截取第一个数组元素
@@ -157,8 +198,13 @@ include './common/common.php';
 			$table = DB_PREFIX.'post';
 				switch ($submit) {
 					case '删除主题':
+						if (empty($_POST['pid'])) {
+							$content = error('052');
+							display('error.html' ,compact('content'));
+							exit();
+						}
 						$id = $_POST['pid'];
-						$data['display'] = 0 ; 
+						$data['display'] = 0 ;
 						if (is_array($id)) {
 							$id = implode($id , ',');
 							$where = "pid in ($id)";

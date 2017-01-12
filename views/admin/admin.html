@@ -20,8 +20,8 @@
         <!--    头部操作链接  -->          
                 <div class="top_login_box fr">
                     <a href="{#WEB_SITE}/index.php" class="top">首页</a>
-					{if !empty($_COOKIE['username'])}
-					欢迎你&nbsp;&nbsp;<span class="item_title">{$_COOKIE['username']}</span>&nbsp;&nbsp;
+					{if !empty($_COOKIE['admin'])}
+					欢迎你&nbsp;&nbsp;<span class="item_title">管理员{$_COOKIE['admin']}</span>&nbsp;&nbsp;
 					<a href="{#WEB_SITE}/settings.php" class="top">设置</a>
                     <a href="{#WEB_SITE}/logout.php" class="top">退出</a>
 					
@@ -81,17 +81,17 @@
 						{foreach $result as $value}
 							<tr>
 								<td>
-									<input type="text" name="tabname['{$value['id']}']" value="{$value['tabname']}"/>
+									<input type="text" name="tabname[{$value['id']}]" value="{$value['tabname']}"/>
 								</td>
 								<td>
 									当前LOGO
 									<img src="{$value['logo']}" style="width:50px; height:50px"/>
 								</td>
 								<td>
-									<input name="info['{$value['id']}']" value="{$value['info']}"/>
+									<input name="info[{$value['id']}]" value="{$value['info']}"/>
 								</td>
 								<td>
-									<input type="text" name="scythe['{$value['id']}']" value="{$value['scythe']}"/>
+									<input type="text" name="scythe[{$value['id']}]" value="{$value['scythe']}"/>
 								</td>
 								<td>{if $value['display']==1}显示{else}不显示{/if}</td>
 								<td>
