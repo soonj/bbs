@@ -16,6 +16,7 @@
 //		-4  输入的密码不合法
 //		-5  两次密码不同
 //		-6  验证码不正确
+//		-7  密码错误次数过多，请一小时后再来
 //
 //
 //	注册错误
@@ -47,7 +48,7 @@
 //	06?
 //		-1	请使用正确的管理员账号
 //		-2  您的账号已被锁定，注意行为规范
-//
+//		-3  网站已关闭
 //	支付错误
 //	888
 //	
@@ -72,6 +73,9 @@ function error($error=null)
 			break;
 		case '006':
 			$content = 'error#006~验证码不正确';
+			break;
+		case '007':
+			$content = 'error#007~密码错误次数过多，请一小时后再来';
 			break;
 		case '010':
 			$content = 'error#010~注册失败';
@@ -102,6 +106,12 @@ function error($error=null)
 			break;
 		case '061':
 			$content = 'error#061~请使用正确的管理员账号';
+			break;
+		case '062':
+			$content = 'error#062~您的账号已被锁定，注意行为规范';
+			break;
+		case '063':
+			$content = 'error#063~网站已关闭';
 			break;
 		case '888':
 			$content = 'error#888~金币不足了，再攒攒吧';

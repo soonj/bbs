@@ -4,7 +4,7 @@ if(!file_exists('./install.lock')){
 		exit();
 	}
 
-
+//设置网站字符集
 	header('content-type:text/html; charset=utf-8;');
 	
 	
@@ -19,7 +19,6 @@ if(!file_exists('./install.lock')){
 	include './helper/code.php';//加载验证码函数
 	include './helper/upload_func.php';//加载文件上传函数
 	include './helper/replace_func.php';//加载搜索关键字替换函数
-
 
 	session_start();
 	$link = connect(DB_HOST , DB_USER , DB_PASS , DB_CHARSET , DB_NAME);
