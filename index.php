@@ -48,7 +48,6 @@ if ($result) {
 		$data[]=$row;
 	}
 }
-var_dump($sql);
 
 
 
