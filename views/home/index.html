@@ -43,11 +43,16 @@
                     <div class="sep20"></div>        
                     <div class="box fl clearFix">
 					
-		<!--  子节点遍历   -->
+		<!--  父节点遍历   -->
+        {if !empty($tab)}
+                {foreach $tab as $value}
+                    {if $value[0]['parentid']==0}
                         <div class="cell fl" >
-                            <a href="/?tab=tech" class="tab">技术</a>
-                            <a href="/?tab=creative" class="tab">创意</a>
+                            <a href="{#WEB_SITE}/index.php?tab={$value[0]['tabname']}" class="tab">{$value[0]['tabname']}</a>
                         </div>
+                    {/if}
+                {/foreach}
+        {/if}
         <!--     分页按钮       -->
                         <div class="cell fl clearFix">
                             {section} echo getSelfPageView($nowPage, $totalPage, $baseUrl, $search){/section}
@@ -178,19 +183,25 @@
                 </div>
 
                 <div class="sep20"></div>
+        {if !empty($_GET['tab']}
                 <div class="box">
                     <div class="cell">
                         <div class="fr"></div>
                         <span class="fade">节点</span>
                     </div>
 					
-		<!--                    父节点遍历             -->			
+		<!--                    子节点遍历             -->		
+        
+                {foreach $tab as $value}
+                    {if $value[0]['parentid']==$_GET['tab']}
                     <div class="cell">
-                        <a href="/go/qna" class="item_node">问与答</a>
-                        <a href="/go/share" class="item_node">分享发现</a>
-                        <a href="/go/jobs" class="item_node">酷工作</a>
+                        <a href="{#WEB_SITE}/index.php?tab={$_GET['tab']}&&go={$value[0]['tabname']}" class="item_node">{$value[0]['tabname']}</a>
                     </div>
+                    {/if}
+                {/foreach}
+        
                 </div>
+        {/if}
             </div>
         </div>
 
