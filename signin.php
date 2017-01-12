@@ -33,7 +33,7 @@ if (!empty($_POST['submit'])) {
 				display('error.html' ,compact('content'));
 				exit();
 			}else{
-				update($link , DB_PREFIX.user'' , 'usergrant = 0' , "username = '$username'");
+				update($link , DB_PREFIX.'user' , 'usergrant = 0' , "username = '$username'");
 				unset($_SESSION[$username]);
 				$content = error('002');
 				display('error.html' ,compact('content'));
