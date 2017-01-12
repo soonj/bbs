@@ -26,8 +26,6 @@ if (!empty($_GET['tab'])) {
 	$tabname = $_GET['tab'];
 	$tab_result = select($link , DB_PREFIX.'tab' , '*' , "tabname = '$tabname'");
 }
-var_dump($tab_result);
-
 
 
 //----------分页查询主题信息
